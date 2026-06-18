@@ -1,0 +1,2652 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P3 バウル＆アルテマブラスター通し練習</title>
+<style>
+  :root{
+    --bg:#0c1020; --panel:#151a2e; --panel2:#1e2540; --text:#f5f7ff; --muted:#aeb8d7;
+    --ok:#5be37d; --ng:#ff6969; --warn:#ffd166; --fire:#ff5a3d; --water:#39a7ff; --wind:#63d66f;
+    --line:#344061;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#090d18,#12182b);color:var(--text)}
+  header{padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(12,16,32,.92);position:sticky;top:0;z-index:3}
+  h1{font-size:20px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px;line-height:1.5}.headerLinks{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+  main{max-width:1180px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
+  .card{background:rgba(21,26,46,.96);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.22)}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+  label{font-size:13px;color:var(--muted)}
+  select,button{border-radius:10px;border:1px solid #445174;background:#0f1426;color:var(--text);padding:9px 10px;font-size:14px}
+  button{cursor:pointer;background:#253053;font-weight:700} button:hover{filter:brightness(1.12)}
+  .primary{background:#3457d5;border-color:#5572e8}.ghost{background:#141a30}.danger{background:#4a1e28;border-color:#8a3848}
+  .linkBtn{display:inline-flex;align-items:center;justify-content:center;border-radius:10px;border:1px solid #445174;background:#141a30;color:var(--text);padding:9px 10px;font-size:14px;font-weight:700;text-decoration:none}.linkBtn:hover{filter:brightness(1.12)}.minorLink{display:inline-flex;align-items:center;color:var(--muted);padding:2px 2px;font-size:12px;text-decoration:none}.minorLink:hover{color:#dbe4ff;text-decoration:underline}.controlSpacer{flex:1 1 auto}
+  .arenaWrap{position:relative;aspect-ratio:1/1;min-height:360px}.arenaWrap svg{width:100%;height:100%;display:block;border-radius:14px;background:#080b14}.slideTopNav{pointer-events:none;position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:6px;z-index:3}.slideTopNav button{pointer-events:auto;min-width:34px;height:34px;border-radius:10px;border:1px solid #5970bf;background:rgba(7,10,20,.82);color:#fff;font-weight:900;cursor:pointer}.slideTopNav span{pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:34px;border-radius:10px;border:1px solid #8aa4ff;background:rgba(7,10,20,.82);color:#fff;font-weight:900}.modeButtons{display:flex;gap:8px;flex-wrap:wrap}.modeBtn.active,.strategyBtn.active,#blasterNumberModeButtons button.active,#blasterManualNumbers button.active{outline:2px solid #8fb1ff;box-shadow:0 0 0 3px rgba(111,149,255,.18)}.hiddenSelect{display:none !important}.practiceBar{height:12px;border-radius:999px;background:#18203a;overflow:hidden;border:1px solid #33426a}.practiceFill{height:100%;background:linear-gradient(90deg,#6bdcff,#77f2a3);width:100%;transition:none}.practiceMeta{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#cbd7ff;font-size:13px;margin-bottom:6px}.practiceControls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.controlStack{display:flex;flex-direction:column;gap:4px}.controlFull{flex-basis:100%}.smallMuted{font-size:12px;color:var(--muted)}.practiceTopArea{margin:0 0 8px}.practiceTopArea.hidden{display:none !important}.practiceCenterOverlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:4}.practiceCenterBox{display:flex;flex-direction:column;align-items:center;gap:12px;pointer-events:none}.practiceCountdownText{font-size:76px;font-weight:900;color:#ffffff;text-shadow:0 0 18px rgba(107,220,255,.55),0 0 32px rgba(107,220,255,.28)}.practiceStartBtnCenter{pointer-events:auto;min-width:160px;min-height:54px;border-radius:999px;border:2px solid #8aa4ff;background:rgba(7,10,20,.88);box-shadow:0 0 0 3px rgba(111,149,255,.16),0 0 18px rgba(107,220,255,.20);font-size:18px}.practiceStartBtnCenter:hover{filter:brightness(1.12)}.practiceCastGlow{filter:url(#blueGlow)}.practiceLogBox{font-size:13px;line-height:1.7;background:#0e1428;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}.practiceLogBox b{display:block;margin-bottom:4px}.practiceLogItem{padding:2px 0}.practiceFinishedBanner{margin-top:8px;padding:8px 10px;border-radius:10px;border:1px solid #3f547f;background:#10162a;color:#dcebff}.practiceControls button{min-height:40px}.partyList.debuffsHidden .partyMark{display:none}.partyList.debuffsHidden .partyRow{grid-template-rows:auto}.partyList.debuffsHidden{padding:7px 8px}
+  .partyList{display:grid;grid-template-columns:repeat(8,minmax(74px,1fr));gap:6px;margin:0 0 10px;background:rgba(7,10,20,.55);border:1px solid rgba(185,197,255,.28);border-radius:12px;padding:8px;box-shadow:0 8px 18px rgba(0,0,0,.18)}
+  .partyRow{display:grid;grid-template-rows:auto 1fr;gap:4px;align-items:stretch;font-size:11px;line-height:1.2;min-width:0}
+  .partyRole{font-weight:900;color:#eef2ff;text-align:center;letter-spacing:.02em;border-radius:7px;padding:3px 4px;background:rgba(255,255,255,.06);cursor:pointer;user-select:none}.partyRow{cursor:pointer;border-radius:10px;padding:3px}.partyRow:hover .partyRole{filter:brightness(1.18);outline:1px solid rgba(255,255,255,.28)}.partyRole.me{color:#fff;background:#3457d5}
+  .partyRow.meSelected{outline:3px solid #56d7ff;background:rgba(86,215,255,.10);box-shadow:0 0 0 2px rgba(86,215,255,.20) inset,0 0 16px rgba(86,215,255,.22)}
+  .partyRow.meSelected .partyRole{background:rgba(86,215,255,.26);color:#fff}
+  .partyRow.meSelected .partyMark{background:rgba(86,215,255,.10);border:1px solid rgba(86,215,255,.35)}
+  .partyMark{display:flex;flex-direction:column;gap:3px;align-items:stretch;justify-content:center;min-height:42px;border-radius:8px;padding:3px;font-weight:900;text-align:center;white-space:normal}
+  .debuffBox{display:flex;align-items:center;justify-content:center;border-radius:7px;padding:3px 4px;min-height:17px;border:1.5px solid rgba(255,255,255,.22);line-height:1.05}
+  .debuffBox.fire{background:rgba(255,90,61,.22);border-color:rgba(255,90,61,.88);color:#ffe2dc}
+  .debuffBox.water{background:rgba(57,167,255,.22);border-color:rgba(57,167,255,.9);color:#e0f2ff}
+  .debuffBox.wind{background:rgba(99,214,111,.16);border-color:rgba(99,214,111,.95);color:#dbffdf}
+  .partyMark.onlyWind{justify-content:center}.partyMark.onlyWind .debuffBox.wind{min-height:31px}
+
+  .legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;font-size:13px;color:var(--muted)}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:#11172b;border:1px solid var(--line);border-radius:999px;padding:6px 8px}.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+  .q{padding:10px;border:1px solid var(--line);border-radius:12px;margin:9px 0;background:#10162a}.q b{display:block;margin-bottom:7px}.choices{display:flex;flex-wrap:wrap;gap:7px}.choices button{font-weight:600;padding:8px 10px}.choices button.selected{outline:2px solid #8aa4ff;background:#24396f}
+  .choices button.correctAnswer{outline:3px solid #4ade80;background:#16351f;box-shadow:0 0 0 2px rgba(74,222,128,.18)}
+  .result{white-space:pre-wrap;line-height:1.6;background:#0e1428;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;color:#e9edff}
+  .ok{color:var(--ok);font-weight:800}.ng{color:var(--ng);font-weight:800}.warn{color:var(--warn);font-weight:800}.muted{color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}th,td{border-bottom:1px solid var(--line);padding:7px;text-align:left}th{color:var(--muted);font-weight:600}
+  .pill{border-radius:999px;padding:3px 7px;font-weight:800;font-size:12px}.fire{background:rgba(255,90,61,.16);color:#ffb2a5}.water{background:rgba(57,167,255,.16);color:#addcff}.wind{background:rgba(99,214,111,.16);color:#bcffc3}.none{background:#252c44;color:#cdd6f8}
+  .tabs{display:flex;gap:8px;margin-bottom:12px}.tab{background:#11172b}.tab.active{background:#3457d5}
+  .hidden{display:none!important}.footnote{font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px}
+  .stepbar{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.stepitem{font-size:12px;border:1px solid var(--line);background:#10162a;border-radius:999px;padding:5px 8px;color:var(--muted)}.stepitem.active{background:#3457d5;color:white}.stepitem.done{background:#1d5130;color:#bcffc3}
+  .clickLog{font-size:13px;line-height:1.7;background:#0e1428;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}.hintBox{border:1px solid #445174;background:#10162a;border-radius:12px;padding:10px;margin:8px 0;line-height:1.6}
+  .hardChoices{display:grid;grid-template-columns:repeat(2,minmax(130px,1fr));gap:10px;margin:10px 0}
+  .roundChoice{min-height:58px;border-radius:999px;border:2px solid #56658f;background:#151d35;color:#eef2ff;font-weight:900;line-height:1.25;padding:10px 14px;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+  .roundChoice:hover{filter:brightness(1.18);transform:translateY(-1px)}
+  .roundChoice.selected{outline:4px solid #42c7ff;background:#0b62d6;box-shadow:0 0 0 4px rgba(66,199,255,.28),0 0 18px rgba(66,199,255,.45)}
+  .roundChoice.correctAnswer{border-color:#4ade80;background:#16351f;box-shadow:0 0 0 3px rgba(74,222,128,.18)}
+  .roundChoice.wrongChosen{border-color:#ff6969;background:#35161d}
+
+  @media(max-width:900px){main{grid-template-columns:1fr}.arenaWrap{min-height:320px}.partyList{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>P3 バウル＆アルテマブラスター通し練習</h1>
+  <div class="headerLinks">
+    <a class="linkBtn" href="https://pilsnerdrinker.github.io/practice-baul/" target="_blank" rel="noopener noreferrer">参考：バウル単体練習</a>
+    <a class="linkBtn" href="https://pilsnerdrinker.github.io/practice-blaster/" target="_blank" rel="noopener noreferrer">参考：アルテマブラスター単体練習</a>
+    <a class="minorLink" href="https://pilsnerdrinker.github.io/raidshelf/" target="_blank" rel="noopener noreferrer">他の練習ページ：raidshelf</a>
+  </div>
+  <div class="sub">バウル処理中に、次のアルテマブラスター判断へ切り替える練習用ページです。</div>
+</header>
+<main>
+  <section class="card">
+    <div class="tabs hidden" style="display:none">
+      <button id="tabBaul" class="tab active">バウル理解</button>
+      <button id="tabUltima" class="tab hidden" style="display:none">アルテマブラスター</button>
+    </div>
+    <div id="baulControls" class="controls">
+      <label>自分ロール <select id="roleSelect"></select></label>
+      <button class="primary" id="newScenario">新しい問題</button>
+      <div class="controlStack controlFull">
+        <div class="smallMuted">方式</div>
+        <div class="modeButtons" id="strategyButtons">
+          <button type="button" class="ghost strategyBtn active" data-strategy="yanTLB">ヤーン（TLB3）式</button>
+          <button type="button" class="ghost strategyBtn" data-strategy="yanDN">ヤーン（DN/正攻法）式</button>
+          <button type="button" class="ghost strategyBtn" data-strategy="poikos">Poikos式</button>
+        </div>
+        <label class="hiddenSelect">方式 <select id="strategySelect"><option value="yanTLB">ヤーン（TLB3）式</option><option value="yanDN">ヤーン（DN/正攻法）式</option><option value="poikos">Poikos式</option></select></label>
+      </div>
+      <div class="controlStack controlFull hidden" aria-hidden="true">
+        <div class="smallMuted">表示</div>
+        <div class="modeButtons">
+          <button type="button" class="ghost modeBtn" id="modeBtnNormal">ギミック理解</button>
+          <button type="button" class="ghost modeBtn" id="modeBtnHard">位置確認</button>
+          <button type="button" class="ghost modeBtn active" id="modeBtnPractice">実践練習</button>
+        </div>
+        <label class="hiddenSelect">表示 <select id="modeSelect"><option value="normal">Normal：選択肢</option><option value="hard" selected>Hard：立ち位置ボタン</option></select></label>
+      </div>
+      <div class="controlStack controlFull">
+        <div class="smallMuted">サイコロ番号</div>
+        <div class="modeButtons" id="blasterNumberModeButtons">
+          <button type="button" class="ghost" id="blasterNumRandom">ランダム</button>
+          <button type="button" class="ghost" id="blasterNumManual">自分で選ぶ</button>
+          <span class="chip">現在：<b id="blasterNumberText">1</b>番</span>
+        </div>
+        <div class="modeButtons" id="blasterManualNumbers"></div>
+      </div>
+    </div>
+    <div id="ultimaControls" class="controls hidden">
+      <label>サイコロ <select id="diceSelect"></select></label>
+      <button class="primary" id="newUltima">新しい問題</button>
+    </div>
+    <div id="partyList" class="partyList" aria-label="パーティーリスト（ロールをクリックして自分ロールを選択）"></div><div id="practiceTopArea" class="practiceTopArea hidden"></div><div class="arenaWrap"><div id="slideTopNav" class="slideTopNav"><button type="button" id="slidePrevTop">＜</button><span id="slideCountTop">1/7</span><button type="button" id="slideNextTop">＞</button></div><div id="practiceCenterOverlay" class="practiceCenterOverlay hidden"></div><svg id="arena" viewBox="0 0 600 600" aria-label="arena"></svg></div>
+    <div id="practiceMapControls" class="controls hidden"></div>
+    <div class="legend">
+      <span class="chip"><span class="dot" style="background:var(--fire)"></span>炎：小円 / 炎クリはドーナツ</span>
+      <span class="chip"><span class="dot" style="background:var(--water)"></span>水：ドーナツ / 水クリは小円</span>
+      <span class="chip"><span class="dot" style="background:var(--wind)"></span>風：ノックバック解除</span>
+    </div>
+    <div class="controls" id="mapNavControls">
+      <button class="ghost" id="mapPrev">前へ</button>
+      <button class="primary" id="mapCheck">判定</button>
+      <button class="ghost" id="mapShowAnswer">正解を表示</button>
+      <button class="ghost" id="mapNext">次へ</button>
+      <button class="ghost" id="mapNewProblem">別の問題</button>
+      <label class="chip" style="gap:6px;cursor:pointer"><input type="checkbox" id="autoAdvanceOnCorrect"> 正解したらそのまま次へ</label>
+    </div>
+    <div class="footnote">通し練習専用です。バウルの詳細確認はバウル単体練習、アルテマブラスターの詳細確認はアルテマブラスター単体練習を参照してください。</div>
+  </section>
+
+  <section class="card" id="baulPanel">
+    <h2 id="baulPanelTitle" style="margin:0 0 8px;font-size:18px">バウル理解クイズ</h2>
+    <div id="scenarioSummary" class="muted"></div>
+    <div id="questions"></div>
+    <div id="hardPractice" class="hidden"></div>
+    <div class="controls">
+      <button class="primary" id="checkBtn">判定</button>
+      <button class="ghost" id="answerBtn">正解を表示</button>
+      <button class="ghost hidden" id="quizNextBtn">次へ</button>
+      <button class="danger" id="resetBtn">回答リセット</button>
+    </div>
+    <div id="result" class="result">新しい問題を生成してください。</div>
+    <div id="debuffTable" class="hidden"></div>
+  </section>
+
+  <section class="card hidden" id="ultimaPanel" style="display:none">
+    <h2 style="margin:0 0 8px;font-size:18px">アルテマブラスター単体</h2>
+    <div class="muted" id="ultimaSummary"></div>
+    <div id="ultimaQuestions"></div>
+    <div class="controls">
+      <button class="primary" id="checkUltima">判定</button>
+      <button class="ghost" id="answerUltima">正解を表示</button>
+    </div>
+    <div id="ultimaResult" class="result">新しい問題を生成してください。</div>
+    <div class="footnote">ルール：予兆の開始地点はそのまま、実際の飛来回転は逆。自分の番号のブラスター対角から時計回りにずれたマーカー間へ。</div>
+  </section>
+</main>
+<script>
+const roles = ["MT","ST","H1","H2","D1","D2","D3","D4"];
+const th = ["MT","ST","H1","H2"];
+const dps = ["D1","D2","D3","D4"];
+const dirs = ["A","1","B","2","C","3","D","4"]; // clockwise
+const crystalDirs = ["1","2","3","4"]; // クリスタルは数字マーカーのいずれか
+const pos = {
+  A:[300,70], "1":[462,138], B:[530,300], "2":[462,462], C:[300,530], "3":[138,462], D:[70,300], "4":[138,138]
+};
+const center=[300,300];
+// クリスタルは数字マーカー方向だが、外周ギリギリではなく少し内側に置く。
+const crystalPos = d => {
+  const [x,y]=pos[d];
+  const ratio=0.78;
+  return [center[0] + (x-center[0])*ratio, center[1] + (y-center[1])*ratio];
+};
+const opposite = d => dirs[(dirs.indexOf(d)+4)%8];
+const clockwiseNext = d => dirs[(dirs.indexOf(d)+1)%8];
+const rand = arr => arr[Math.floor(Math.random()*arr.length)];
+const shuffle = arr => [...arr].sort(()=>Math.random()-.5);
+const TOTAL_STEPS = 7;
+const pairLabels = dirs.map((d,i)=>`${d}-${dirs[(i+1)%8]}間`);
+const mod8 = n => (n % 8 + 8) % 8;
+const dirStepByKey = key => key === 'cw' ? 1 : -1;
+let blasterState = { numberMode:'random', manualNumber:1, myNumber:1, firstFrom:0, rotateDir:'cw' };
+let state={}, answers={}, ultima={}, ultimaAnswers={}, normalStep=0, hardStep=0, hardClicks=[], hardImplosionClicks=[], hardShowAnswer=false, hardSelectedChoice="", hardJudged=false, hardJudgeCorrect=false, hardAutoAdvanceTimer=null, showNormalAnswer=false, normalJudged=false, showUltimaAnswer=false;
+let displayMode='practice';
+let practiceRunning=false, practicePaused=false, practiceStarted=false, practiceCountdown=0, practiceTimeLeft=12000, practiceDuration=12000, practiceTimer=null, practiceCountdownTimer=null;
+let practicePhase='idle', practiceStepRemaining=0, practiceRevealRemaining=1000, practiceFinishRemaining=3000, practiceCountdownRemaining=3000, practiceRaf=null, practiceLastTs=0;
+let practiceLogs=[];
+let practiceSegmentIndex=0;
+let practiceLastCastVisible=false, practiceLastNotice='';
+const practiceSegments=[
+  {step:0,key:'split',duration:7000,reveal:1000},
+  {step:1,key:'stLead1',duration:10000,reveal:1000},
+  {step:1,key:'spread1',duration:7000,reveal:1000},
+  {step:1,key:'stLead2',duration:3000,reveal:1000},
+  {step:2,key:'imp1',duration:7000,reveal:800},
+  {step:2,key:'imp2',duration:2000,reveal:800},
+  {step:3,key:'spread2',duration:3000,reveal:1000},
+  {step:4,key:'vacuumPrep',duration:5000,reveal:1000},
+  {step:5,key:'vacuumResolve',duration:8000,reveal:1000},
+  {step:6,key:'blasterAnswer',duration:5000,reveal:1000}
+];
+const practiceAnswerDuration=1000;
+const practiceLogDuration=3000;
+const roleSelect = document.getElementById('roleSelect');
+const strategySelect = document.getElementById('strategySelect');
+const strategyBtns = [...document.querySelectorAll('.strategyBtn')];
+const modeSelect = document.getElementById('modeSelect');
+const modeBtnNormal = document.getElementById('modeBtnNormal');
+const modeBtnHard = document.getElementById('modeBtnHard');
+const modeBtnPractice = document.getElementById('modeBtnPractice');
+const blasterNumRandom = document.getElementById('blasterNumRandom');
+const blasterNumManual = document.getElementById('blasterNumManual');
+const blasterManualNumbers = document.getElementById('blasterManualNumbers');
+const blasterNumberText = document.getElementById('blasterNumberText');
+const slideTopNav = document.getElementById('slideTopNav');
+const slidePrevTop = document.getElementById('slidePrevTop');
+const slideNextTop = document.getElementById('slideNextTop');
+const slideCountTop = document.getElementById('slideCountTop');
+const result = document.getElementById('result');
+const tabBaul = document.getElementById('tabBaul');
+const tabUltima = document.getElementById('tabUltima');
+const baulPanel = document.getElementById('baulPanel');
+const ultimaPanel = document.getElementById('ultimaPanel');
+const baulControls = document.getElementById('baulControls');
+const ultimaControls = document.getElementById('ultimaControls');
+const newScenario = document.getElementById('newScenario');
+const checkBtn = document.getElementById('checkBtn');
+const answerBtn = document.getElementById('answerBtn');
+const quizNextBtn = document.getElementById('quizNextBtn');
+const resetBtn = document.getElementById('resetBtn');
+const newUltima = document.getElementById('newUltima');
+const checkUltima = document.getElementById('checkUltima');
+const answerUltima = document.getElementById('answerUltima');
+const mapPrev = document.getElementById('mapPrev');
+const mapCheck = document.getElementById('mapCheck');
+const mapShowAnswer = document.getElementById('mapShowAnswer');
+const mapNext = document.getElementById('mapNext');
+const mapNewProblem = document.getElementById('mapNewProblem');
+const partyList = document.getElementById('partyList');
+const arena = document.getElementById('arena');
+const mapNavControls = document.getElementById('mapNavControls');
+const practiceMapControls = document.getElementById('practiceMapControls');
+const panelActionControls = checkBtn ? checkBtn.closest('.controls') : null;
+const practiceTopArea = document.getElementById('practiceTopArea');
+const practiceCenterOverlay = document.getElementById('practiceCenterOverlay');
+const debuffTable = document.getElementById('debuffTable');
+const questions = document.getElementById('questions');
+const hardPractice = document.getElementById('hardPractice');
+const baulPanelTitle = document.getElementById('baulPanelTitle');
+const scenarioSummary = document.getElementById('scenarioSummary');
+const autoAdvanceOnCorrect = document.getElementById('autoAdvanceOnCorrect');
+const diceSelect = document.getElementById('diceSelect');
+const ultimaSummary = document.getElementById('ultimaSummary');
+const ultimaResult = document.getElementById('ultimaResult');
+const ultimaQuestions = document.getElementById('ultimaQuestions');
+
+
+function blasterGenerate(){
+  blasterState.firstFrom = Math.floor(Math.random()*8);
+  blasterState.rotateDir = Math.random() < 0.5 ? 'cw' : 'ccw';
+  blasterState.myNumber = blasterState.numberMode === 'random' ? Math.floor(Math.random()*8)+1 : blasterState.manualNumber;
+}
+function blasterSolution(){
+  const firstTo = mod8(blasterState.firstFrom + 4);
+  const secondFrom = mod8(blasterState.firstFrom + dirStepByKey(blasterState.rotateDir));
+  const secondTo = mod8(secondFrom + 4);
+  const diceDir = blasterState.rotateDir === 'cw' ? 'ccw' : 'cw';
+  const diceStep = dirStepByKey(diceDir);
+  const dice1 = diceDir === 'cw' ? firstTo : mod8(firstTo - 1);
+  const final = mod8(dice1 + (blasterState.myNumber - 1) * diceStep);
+  return {firstTo, secondFrom, secondTo, diceDir, diceStep, dice1, final};
+}
+function blasterExpectedChoice(){
+  return pairLabels[blasterSolution().final];
+}
+
+function currentPracticeSegment(){
+  return practiceSegments[Math.max(0, Math.min(practiceSegmentIndex, practiceSegments.length-1))] || practiceSegments[0];
+}
+function currentPracticeSegmentTitle(){
+  const seg=currentPracticeSegment();
+  const titles={
+    split:'1枚目', stLead1:'2枚目① ST誘導', spread1:'2枚目② 全員散開', stLead2:'2枚目③ ST無敵',
+    imp1:'3枚目① 1回目安置', imp2:'3枚目② 2回目安置', spread2:'4枚目', vacuumPrep:'5枚目', vacuumResolve:'6枚目', blasterAnswer:'7枚目'
+  };
+  return titles[seg.key] || `${seg.step+1}枚目`;
+}
+function currentPracticeExpectedChoice(phase=currentBaulMapPhase()){
+  if(!isPracticeView()) return hardExpectedChoice(phase);
+  const seg=currentPracticeSegment();
+  if(!seg || seg.step!==phase) return hardExpectedChoice(phase);
+  if(seg.key==='stLead1' || seg.key==='stLead2') return roleSelect.value==='ST' ? practiceStLeadAnswer() : null;
+  if(seg.key==='imp1') return implosionSafeSeq()[0];
+  if(seg.key==='imp2') return implosionSafeSeq()[1];
+  return hardExpectedChoice(phase);
+}
+function isPracticeImplosionPhase(){
+  if(!isPracticeView() || hardStep!==2) return false;
+  const key=currentPracticeSegment().key;
+  return key==='imp1' || key==='imp2';
+}
+function shouldShowPracticeImplosionCast(){
+  if(!isPracticeImplosionPhase()) return false;
+  const seg=currentPracticeSegment();
+  if(seg.key!=='imp1') return false;
+  const elapsed=Math.max(0, practiceDuration-practiceTimeLeft);
+  return elapsed>=3000 && elapsed<6000;
+}
+function exdeathLeadCenter(){
+  return polarPoint(state.crystals.empty,170);
+}
+function practiceStLeadAnswer(){
+  return isDnLike() ? 'T強攻撃誘導' : 'エクスデス誘導';
+}
+function tlbExdeathStackCenter(){
+  const wind = crystalPos(state.crystals.wind);
+  const wdx = wind[0]-center[0], wdy = wind[1]-center[1];
+  const wlen = Math.hypot(wdx,wdy) || 1;
+  const wn = [wdx/wlen, wdy/wlen];
+  return [wind[0]-wn[0]*62, wind[1]-wn[1]*62];
+}
+function currentPracticeRevealDuration(){
+  return (currentPracticeSegment() && currentPracticeSegment().reveal) || practiceAnswerDuration;
+}
+function currentPracticeStepDuration(step=hardStep){
+  const seg=currentPracticeSegment();
+  return seg ? seg.duration : 5000;
+}
+function totalPracticeSegments(){ return practiceSegments.length; }
+function firstSegmentIndexForStep(step){
+  const idx = practiceSegments.findIndex(seg=>seg.step===step);
+  return idx>=0 ? idx : 0;
+}
+function moveToPracticeStep(step){
+  const clamped = Math.max(0, Math.min(TOTAL_STEPS-1, step));
+  clearPracticeTimers();
+  practiceRunning=false;
+  practicePaused=false;
+  practiceStarted=false;
+  practicePhase='idle';
+  practiceLastTs=0;
+  practiceLastCastVisible=false;
+  practiceLastNotice='';
+  practiceSegmentIndex=firstSegmentIndexForStep(clamped);
+  hardStep=clamped;
+  hardShowAnswer=false;
+  hardSelectedChoice='';
+  hardImplosionClicks=[];
+  resetHardJudgeState();
+  preparePracticeStep(true);
+  renderAll();
+}
+function practiceNoticeText(){
+  if(!isPracticeView()) return '';
+  const seg=currentPracticeSegment();
+  const elapsed=Math.max(0, practiceDuration-practiceTimeLeft);
+  if(seg.key==='stLead1' || seg.key==='stLead2') return 'サンダガ誘導';
+  if(seg.key==='vacuumPrep') return 'アンブラスマッシュ誘導';
+  if(seg.key==='vacuumResolve' && elapsed>=5000 && elapsed<7000) return 'TLB（真空波7割）';
+  return '';
+}
+function drawPracticeNotice(add){
+  const text = practiceNoticeText();
+  if(!text) return;
+  add('rect',{x:172,y:68,width:256,height:34,rx:12,fill:'rgba(255,255,255,.10)',stroke:'rgba(255,255,255,.72)','stroke-width':1.8});
+  add('text',{x:300,y:90,fill:'#f5f8ff','font-size':16,'font-weight':800,'text-anchor':'middle'}).textContent=text;
+}
+function setBlasterNumberMode(mode){
+  blasterState.numberMode = mode === 'manual' ? 'manual' : 'random';
+  if(blasterState.numberMode === 'manual') blasterState.myNumber = blasterState.manualNumber;
+  else blasterState.myNumber = Math.floor(Math.random()*8)+1;
+  localStorage.setItem('p3baulBlasterNumberMode', blasterState.numberMode);
+  renderBlasterNumberControls();
+  renderAll();
+}
+function setBlasterManualNumber(n){
+  blasterState.numberMode='manual';
+  blasterState.manualNumber=n;
+  blasterState.myNumber=n;
+  localStorage.setItem('p3baulBlasterNumberMode','manual');
+  localStorage.setItem('p3baulBlasterManualNumber', String(n));
+  renderBlasterNumberControls();
+  renderAll();
+}
+function renderBlasterNumberControls(){
+  if(blasterNumRandom) blasterNumRandom.classList.toggle('active', blasterState.numberMode==='random');
+  if(blasterNumManual) blasterNumManual.classList.toggle('active', blasterState.numberMode==='manual');
+  if(blasterNumberText) blasterNumberText.textContent = blasterState.myNumber;
+  if(blasterManualNumbers){
+    blasterManualNumbers.innerHTML = Array.from({length:8},(_,i)=>{
+      const n=i+1;
+      const active = blasterState.numberMode==='manual' && blasterState.manualNumber===n ? ' active' : '';
+      return `<button type="button" class="ghost${active}" data-blaster-num="${n}">${n}</button>`;
+    }).join('');
+    blasterManualNumbers.querySelectorAll('[data-blaster-num]').forEach(btn=>{
+      btn.onclick=()=>setBlasterManualNumber(Number(btn.dataset.blasterNum));
+    });
+  }
+}
+function pForDirIndex(idx, r=218){
+  const d=dirs[mod8(idx)];
+  const [x,y]=pos[d];
+  const dx=x-center[0], dy=y-center[1];
+  const len=Math.hypot(dx,dy)||1;
+  return [center[0]+dx/len*r, center[1]+dy/len*r];
+}
+function pForPairIndex(idx, r=213){
+  const a=pForDirIndex(idx, r), b=pForDirIndex(idx+1, r);
+  const ax=a[0]-center[0], ay=a[1]-center[1];
+  const bx=b[0]-center[0], by=b[1]-center[1];
+  let mx=(ax+bx)/2, my=(ay+by)/2;
+  const len=Math.hypot(mx,my)||1;
+  return [center[0]+mx/len*r, center[1]+my/len*r];
+}
+function diceDotPattern(n){
+  const OX=26;
+  const one=[[0,0]], four=[[-12,-12],[12,-12],[-12,12],[12,12]], threeUp=[[0,-13],[-14,12],[14,12]], threeDn=[[0,13],[-14,-12],[14,-12]];
+  const compose=(l,r)=>[...l.map(([x,y])=>[x-OX,y]), ...r.map(([x,y])=>[x+OX,y])];
+  if(n===1) return one;
+  if(n===2) return [[-13,0],[13,0]];
+  if(n===3) return threeUp;
+  if(n===4) return four;
+  if(n===5) return compose(one,four);
+  if(n===6) return compose(threeUp,threeDn);
+  if(n===7) return compose(threeUp,four);
+  return compose(four,four);
+}
+function drawDiceMark(add,n,cx,cy){
+  const w=n>=5?118:74;
+  add('rect',{x:10,y:10,width:w,height:74,rx:14,fill:'rgba(15,23,42,.72)',stroke:'rgba(125,211,252,.50)','stroke-width':1.8});
+  const color=n%2===1?'#5b7cff':'#ff334c';
+  const stroke=n%2===1?'rgba(190,215,255,.9)':'rgba(255,210,220,.9)';
+  diceDotPattern(n).forEach(([dx,dy])=>add('circle',{cx:cx+dx,cy:cy+dy,r:7.5,fill:color,stroke,'stroke-width':1.2}));
+}
+function blasterElapsedInRush(){
+  if(hardStep!==5) return 0;
+  return Math.max(0, practiceDuration - practiceTimeLeft);
+}
+
+function currentBlasterRushInfo(){
+  const elapsed=blasterElapsedInRush();
+  const cycle=1000;
+  const idx=Math.min(7, Math.floor(elapsed/cycle));
+  const phase=elapsed - idx*cycle;
+  const from=mod8(blasterState.firstFrom + idx*dirStepByKey(blasterState.rotateDir));
+  const to=mod8(from+4);
+  const s=pForDirIndex(from,218), e=pForDirIndex(to,218);
+  const t=Math.max(0, Math.min(1, phase/1000));
+  return {elapsed, idx, x:s[0]+(e[0]-s[0])*t, y:s[1]+(e[1]-s[1])*t};
+}
+function updateBlasterRushVisuals(){
+  if(!isPracticeView() || hardStep!==5 || !['active','reveal'].includes(practicePhase)) return;
+  const info=currentBlasterRushInfo();
+  const ball=document.getElementById('blasterRushBall');
+  const label=document.getElementById('blasterRushLabel');
+  if(!ball || (info.idx>=5 && !arena.querySelector('.combo-dice-present'))){ renderArena(); return; }
+  ball.setAttribute('cx', info.x.toFixed(1));
+  ball.setAttribute('cy', info.y.toFixed(1));
+  if(label) label.textContent=`アルテマブラスター ${info.idx+1}/8`;
+}
+function drawBlasterRushOverlay(add){
+  if(!isPracticeView() || hardStep!==5 || !['active','reveal'].includes(practicePhase)) return;
+  const info=currentBlasterRushInfo();
+  const idx=info.idx, x=info.x, y=info.y;
+  add('circle',{id:'blasterRushBall',cx:x,cy:y,r:14,fill:'#ff7ad9',stroke:'rgba(255,255,255,.92)','stroke-width':2.5,filter:'url(#glow)'});
+  add('text',{id:'blasterRushLabel',x:300,y:42,fill:'#ffd7f3','font-size':17,'font-weight':900,'text-anchor':'middle'}).textContent=`アルテマブラスター ${idx+1}/8`;
+  if(idx>=5){ add('circle',{class:'combo-dice-present',cx:4,cy:4,r:1,fill:'transparent'}); drawDiceMark(add, blasterState.myNumber, blasterState.myNumber>=5?69:47, 47); }
+}
+function blasterAnswerVisual(answer){
+  const expected=blasterExpectedChoice();
+  if(hardJudged){
+    if(answer===expected) return 'correct';
+    if(hardSelectedChoice===answer && !hardJudgeCorrect) return 'wrong';
+  }
+  if(hardShowAnswer && answer===expected) return 'correct';
+  if(hardSelectedChoice===answer) return 'selected';
+  return 'neutral';
+}
+function drawBlasterAnswerSlide(add){
+  drawDiceMark(add, blasterState.myNumber, blasterState.myNumber>=5?69:47, 47);
+  add('text',{x:300,y:48,fill:'#e9edff','font-size':18,'font-weight':900,'text-anchor':'middle'}).textContent='アルテマブラスター：立ち位置を選択';
+  add('text',{x:300,y:78,fill:'#aeb8d7','font-size':13,'font-weight':700,'text-anchor':'middle'}).textContent='8方向の中間の〇をクリックしてください';
+  const sol=blasterSolution();
+  pairLabels.forEach((label,idx)=>{
+    const [x,y]=pForPairIndex(idx,208);
+    const status=blasterAnswerVisual(label);
+    const fill = status==='correct'?'rgba(74,222,128,.46)':status==='wrong'?'rgba(255,107,107,.46)':status==='selected'?'rgba(42,183,255,.56)':'rgba(255,255,255,.08)';
+    const stroke = status==='correct'?'#4ade80':status==='wrong'?'#ff6b6b':status==='selected'?'#42c7ff':'#e7ecff';
+    add('circle',{cx:x,cy:y,r:17,fill,stroke,'stroke-width':status==='neutral'?2:4,'data-hard-map-answer':label});
+    if(status!=='neutral') add('circle',{cx:x,cy:y,r:24,fill:'none',stroke,'stroke-width':3,opacity:.9,'data-hard-map-answer':label});
+    const [lx,ly]=pForPairIndex(idx,184);
+    add('text',{x:lx,y:ly,fill:'#fff','font-size':11,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=label.replace('間','');
+  });
+}
+
+function resetHardJudgeState(){
+  hardJudged=false;
+  hardJudgeCorrect=false;
+  if(hardAutoAdvanceTimer){ clearTimeout(hardAutoAdvanceTimer); hardAutoAdvanceTimer=null; }
+}
+function advanceHardStep(){
+  if(hardStep<TOTAL_STEPS){
+    hardStep++;
+    hardSelectedChoice='';
+    hardShowAnswer=false;
+    resetHardJudgeState();
+    renderAll();
+  }
+}
+function maybeAutoAdvanceHard(){
+  const box=document.getElementById('autoAdvanceOnCorrect');
+  if(box && box.checked && hardJudgeCorrect){
+    if(hardAutoAdvanceTimer) clearTimeout(hardAutoAdvanceTimer);
+    hardAutoAdvanceTimer=setTimeout(()=>advanceHardStep(), 450);
+  }
+}
+
+function updateStrategyButtons(){
+  strategyBtns.forEach(btn=>btn.classList.toggle('active', btn.dataset.strategy===strategySelect.value));
+}
+function setStrategy(value, announce=true){
+  if(!strategySelect) return;
+  strategySelect.value=value;
+  localStorage.setItem('p3baulStrategy', value);
+  updateStrategyButtons();
+  hardSelectedChoice='';
+  hardShowAnswer=false;
+  resetHardJudgeState();
+  practiceLogs=[];
+  resetPracticeState(true);
+  renderAll();
+  if(announce) result.textContent='方式を変更しました。現在の場面のまま続行できます。';
+}
+function currentSlideStep(){
+  return displayMode==='normal' ? Math.min(normalStep,5) : Math.min(hardStep,TOTAL_STEPS-1);
+}
+function gotoPrevSlide(){
+  if(displayMode==='normal'){
+    if(normalStep>0){ normalStep--; showNormalAnswer=false; normalJudged=false; renderAll(); result.textContent='前のスライドへ戻りました。'; }
+    return;
+  }
+  if(hardStep>0){
+    moveToPracticeStep(hardStep-1);
+    result.textContent='前のスライドへ戻りました。';
+  }
+}
+function gotoNextSlide(){
+  if(displayMode==='normal'){
+    if(normalStep<5){ normalStep++; showNormalAnswer=false; normalJudged=false; renderAll(); result.textContent='次のスライドへ進みました。'; }
+    return;
+  }
+  if(hardStep<TOTAL_STEPS-1){
+    moveToPracticeStep(hardStep+1);
+    result.textContent='次のスライドへ進みました。';
+  }
+}
+
+function setup(){
+  roleSelect.innerHTML = roles.map(r=>`<option>${r}</option>`).join('');
+  diceSelect.innerHTML = [1,2,3,4,5,6,7,8].map(n=>`<option>${n}</option>`).join('');
+  roleSelect.value = localStorage.getItem('p3role') || 'D3';
+  const validStrategies = ['yanTLB','yanDN','poikos'];
+  const savedStrategy = localStorage.getItem('p3baulStrategy');
+  const restoredStrategy = validStrategies.includes(savedStrategy) ? savedStrategy : 'yanTLB';
+  strategySelect.value = restoredStrategy;
+  displayMode = 'practice';
+  modeSelect.value = 'hard';
+  // 通し練習版は実践練習専用。初回はTLB式＋ランダム、保存済みがあれば復元する。
+  modeBtnNormal.onclick=()=>{};
+  modeBtnHard.onclick=()=>{};
+  modeBtnPractice.onclick=()=>{};
+  const savedBlasterNumberMode = localStorage.getItem('p3baulBlasterNumberMode');
+  const savedBlasterManualNumber = Number(localStorage.getItem('p3baulBlasterManualNumber')) || 1;
+  blasterState.numberMode = ['random','manual'].includes(savedBlasterNumberMode) ? savedBlasterNumberMode : 'random';
+  blasterState.manualNumber = Math.min(8, Math.max(1, savedBlasterManualNumber));
+  if(blasterNumRandom) blasterNumRandom.onclick=()=>setBlasterNumberMode('random');
+  if(blasterNumManual) blasterNumManual.onclick=()=>setBlasterNumberMode('manual');
+  renderBlasterNumberControls();
+  strategyBtns.forEach(btn=>btn.onclick=()=>{ if(strategySelect.value!==btn.dataset.strategy) setStrategy(btn.dataset.strategy); });
+  slidePrevTop.onclick=()=>gotoPrevSlide();
+  slideNextTop.onclick=()=>gotoNextSlide();
+  roleSelect.onchange=()=>{
+    localStorage.setItem('p3role', roleSelect.value);
+    hardSelectedChoice="";
+    hardShowAnswer=false;
+    resetHardJudgeState();
+    resetPracticeState(true);
+    renderAll();
+    result.textContent='ロールを変更しました。現在の場面のまま続行できます。';
+  };
+  strategySelect.onchange=()=>{ updateStrategyButtons(); setStrategy(strategySelect.value); };
+  updateStrategyButtons();
+  modeSelect.onchange=()=>{
+    // 非表示セレクト。表示切替は上の3ボタン側で行う。
+    if(modeSelect.value==='normal'){
+      normalStep = Math.min(hardStep, 5);
+      showNormalAnswer = false;
+      normalJudged = false;
+      setDisplayMode('normal');
+    } else {
+      hardStep = Math.min(normalStep, 5);
+      setDisplayMode(isPracticeView() ? 'practice' : 'hard');
+    }
+    hardSelectedChoice="";
+    hardShowAnswer=false;
+    hardImplosionClicks=[];
+    resetHardJudgeState();
+    resetPracticeState(true);
+    renderAll();
+  };
+  newScenario.onclick=()=>{ resetPracticeState(true); genScenario(); };
+  checkBtn.onclick=()=>{ if(isMapLikeView()){ submitHardSelected(); } else checkAnswers(); };
+  answerBtn.onclick=()=>{ if(isMapLikeView()){ hardShowAnswer=true; renderHardPractice(); renderArena(); result.textContent = hardStep<TOTAL_STEPS ? hardExpectedText(hardStep) : '完了済みです。'; } else showAnswers(); };
+  quizNextBtn.onclick=()=>{
+    if(!isNormalView()) return;
+    if(normalStep<5){
+      normalStep++;
+      showNormalAnswer=false;
+      normalJudged=false;
+      renderAll();
+      result.textContent='次の場面へ進みました。';
+    } else {
+      normalStep=6;
+      showNormalAnswer=false;
+      normalJudged=false;
+      renderAll();
+      result.textContent='Normal通し完了。';
+    }
+  };
+  resetBtn.onclick=()=>{answers={}; normalStep=0; hardStep=0; hardClicks=[]; hardImplosionClicks=[]; hardShowAnswer=false; hardSelectedChoice=""; showNormalAnswer=false; normalJudged=false; renderAll(); result.textContent='回答をリセットしました。'};
+  tabBaul.onclick=()=>switchTab('baul'); tabUltima.onclick=()=>switchTab('ultima');
+  newUltima.onclick=genUltima; checkUltima.onclick=checkUltimaAnswers; answerUltima.onclick=showUltimaAnswers;
+  // マップ下ボタン
+  mapPrev.onclick=()=>{
+    if(tabUltima.classList.contains('active')) return;
+    if(isMapLikeView()){
+      if(hardStep===2 && hardImplosionClicks.length>0){
+        hardImplosionClicks.pop(); hardSelectedChoice=''; hardShowAnswer=false; resetHardJudgeState(); renderAll();
+        result.textContent='インプロージョンの1手を戻しました。';
+      } else if(hardStep>0){
+        hardStep--; hardClicks.pop(); hardSelectedChoice=''; hardShowAnswer=false; resetHardJudgeState(); resetPracticeState(true); renderAll();
+        result.textContent='1手戻しました。';
+      }
+    } else if(normalStep>0){
+      normalStep--; showNormalAnswer=false; normalJudged=false; resetPracticeState(true); renderAll(); result.textContent='前の場面へ戻りました。';
+    }
+  };
+  mapCheck.onclick=()=>{
+    if(tabUltima.classList.contains('active')) return;
+    if(isMapLikeView()) submitHardSelected(); else checkAnswers();
+  };
+  mapShowAnswer.onclick=()=>{
+    if(tabUltima.classList.contains('active')) return;
+    if(isMapLikeView()){
+      hardShowAnswer=true; renderHardPractice(); renderArena();
+      result.textContent = hardStep<TOTAL_STEPS ? hardExpectedText(hardStep) : '完了済みです。';
+    } else {
+      showAnswers();
+    }
+  };
+  mapNext.onclick=()=>{
+    if(tabUltima.classList.contains('active')) return;
+    if(isMapLikeView()){
+      if(!(hardJudged || hardShowAnswer)){
+        result.textContent='Hardで次へ進むには、判定を押すか「正解を表示」を押してください。';
+        return;
+      }
+      if(hardStep<TOTAL_STEPS){
+        advanceHardStep();
+        result.textContent = hardStep<TOTAL_STEPS ? '次の場面へ進みました。' : '通し練習終了。完了画面を表示しています。';
+      }
+    } else if(normalStep<5){
+      normalStep++; showNormalAnswer=false; normalJudged=false; resetPracticeState(true); renderAll(); result.textContent='次の場面へ進みました。';
+    } else {
+      result.textContent='Normal通し終了です。別の問題で再挑戦できます。';
+    }
+  };
+  mapNewProblem.onclick=()=>{ resetPracticeState(true); genScenario(); result.textContent='別の問題に切り替えました。'; };
+  genScenario(); genUltima(); switchTab('baul'); setDisplayMode('practice');
+}
+function switchTab(t){
+  const isB=t==='baul';
+  tabBaul.classList.toggle('active',isB); tabUltima.classList.toggle('active',!isB);
+  baulPanel.classList.toggle('hidden',!isB); ultimaPanel.classList.toggle('hidden',isB);
+  baulControls.classList.toggle('hidden',!isB); ultimaControls.classList.toggle('hidden',isB);
+  renderArena();
+}
+function genScenario(){
+  answers={}; normalStep=0; hardStep=0; hardClicks=[]; hardImplosionClicks=[]; hardShowAnswer=false; hardSelectedChoice=""; showNormalAnswer=false; normalJudged=false; practiceLogs=[]; resetHardJudgeState();
+  // クリスタルは1/2/3/4マーカーのいずれかに出現。炎と水は対角、風の対角は空き。
+  const fireDir = rand(crystalDirs);
+  const waterDir = opposite(fireDir);
+  const windCandidates = crystalDirs.filter(d=>d!==fireDir && d!==waterDir);
+  const windDir = rand(windCandidates);
+  const emptyDir = opposite(windDir);
+  // 炎・水はそれぞれTHから1人、DPSから1人ずつ付与。
+  const fireTH = rand(th), fireDPS = rand(dps);
+  const waterTH = rand(th.filter(r=>r!==fireTH));
+  const waterDPS = rand(dps.filter(r=>r!==fireDPS));
+  const first = rand(['fire','water']);
+  const players={};
+  roles.forEach(r=>{
+    const elem = (r===fireTH||r===fireDPS) ? 'fire' : (r===waterTH||r===waterDPS) ? 'water' : 'windOnly';
+    players[r]={role:r, element:elem, duration: elem==='fire' ? (first==='fire'?18:45) : elem==='water' ? (first==='water'?18:45) : null, windDir: rand(['正面受け','背面受け'])};
+  });
+  state={crystals:{fire:fireDir,water:waterDir,wind:windDir,empty:emptyDir}, first, players, implosion: rand(['ホリゾンタル','ヴァーティカル'])};
+  blasterGenerate();
+  renderBlasterNumberControls();
+  ultima=randomUltima(); diceSelect.value=ultima.dice;
+  renderAll(); result.textContent='通し練習：スタートすると3カウント後にバウルから開始します。';
+}
+function getPlayerCorrect(role){
+  const p=state.players[role];
+  const first=state.first;
+  const earlyLabel= first==='fire'?'炎':'水';
+  const firstCrystal= first==='fire'?'炎クリスタル':'水クリスタル';
+  const receiver= first==='fire'?'水持ち':'炎持ち';
+  let timing, useCrystal, arm, category;
+  if(p.element==='fire') { category='炎持ち'; timing = state.first==='water'?'1回目':'2回目'; useCrystal='水クリスタル'; arm='する'; }
+  else if(p.element==='water') { category='水持ち'; timing = state.first==='fire'?'1回目':'2回目'; useCrystal='炎クリスタル'; arm='する'; }
+  else { category='風のみ'; timing='真空波'; useCrystal='風クリスタル/真空波'; arm='しない'; }
+  return {earlyLabel, firstCrystal, receiver, category, timing, useCrystal, arm};
+}
+function renderAll(){ renderArena(); renderPartyList(); renderQuestions(); renderHardPractice(); renderPracticeTopArea(); renderPracticeMapControls(); renderPracticeCenterOverlay(); renderDebuffTable(); renderSummary(); updateSlideTopNav(); if(mapNavControls) mapNavControls.classList.toggle('hidden', isPracticeView()); if(panelActionControls) panelActionControls.classList.toggle('hidden', isPracticeView()); }
+function renderSummary(){
+  if(!state.players || !state.players[roleSelect.value]) return;
+  const me=roleSelect.value, c=getPlayerCorrect(me);
+  const hard=isMapLikeView();
+  const stratLabel = strategyLabel();
+  if(baulPanelTitle) baulPanelTitle.textContent = 'P3前半 通し練習';
+  if(hard){
+    const steps=phaseNames();
+    scenarioSummary.innerHTML = `方式：<b>${stratLabel}</b> / 通し練習 ${Math.min(hardStep+1,TOTAL_STEPS)}/${TOTAL_STEPS}：<b>${steps[hardStep]||'完了'}</b> / 自分：<b>${me}</b> / サイコロ：<b>${blasterState.myNumber}</b>番`;
+  } else {
+    const steps=phaseNames();
+    scenarioSummary.innerHTML = `方式：<b>${stratLabel}</b> / Step ${normalStep+1}/6：<b>${steps[normalStep]||'完了'}</b><br>`+
+    `自分：<b>${me}</b> / ${c.category} / ${state.players[me].duration?state.players[me].duration+'秒':''} / 風：${state.players[me].windDir}<br>`+
+    `クリスタル：炎=${state.crystals.fire} / 水=${state.crystals.water} / 風=${state.crystals.wind} / 空き=${state.crystals.empty} / インプロ：${state.implosion}`;
+  }
+}
+
+function partyDebuffText(p){
+  const wind = `<span class="debuffBox wind">${p.windDir}</span>`;
+  if(p.element==='fire') return `<span class="debuffBox fire">炎${p.duration}</span>${wind}`;
+  if(p.element==='water') return `<span class="debuffBox water">水${p.duration}</span>${wind}`;
+  return wind;
+}
+function shouldShowPracticePartyList(){
+  return true;
+}
+function shouldShowPracticeDebuffs(){
+  if(!isPracticeView()) return true;
+  return practicePhase==='active' || practicePhase==='reveal' || practicePhase==='finished';
+}
+function practiceStateText(){
+  if(!isPracticeView()) return "";
+  if(practicePhase==='countdown') return `開始まで ${practiceCountdown}`;
+  if(practiceRunning && practicePhase==='active') return "進行中";
+  if(practiceRunning && practicePhase==='reveal') return "正解表示中";
+  if(practiceRunning && practicePhase==='finished') return "ログ表示中";
+  if(practicePaused) return "一時停止中";
+  return practiceStarted ? "停止中" : "未開始";
+}
+function renderPartyList(){
+  if(!state.players || !partyList) return;
+  partyList.classList.toggle('hidden', !shouldShowPracticePartyList());
+  partyList.classList.toggle('debuffsHidden', !shouldShowPracticeDebuffs());
+  partyList.innerHTML = roles.map(r=>{
+    const p=state.players[r];
+    const cls=p.element==='fire'?'fire':p.element==='water'?'water':'wind';
+    const me=r===roleSelect.value;
+    return `<div class="partyRow ${me?'meSelected':''}" data-role="${r}" title="${r}を自分ロールにする"><div class="partyRole ${me?'me':''}">${r}</div><div class="partyMark ${cls}">${partyDebuffText(p)}</div></div>`;
+  }).join('');
+  partyList.querySelectorAll('.partyRow').forEach(row=>{
+    row.onclick = () => {
+      roleSelect.value = row.dataset.role;
+      localStorage.setItem('p3role', roleSelect.value);
+      hardSelectedChoice = "";
+      hardShowAnswer = false;
+      resetHardJudgeState();
+      renderAll();
+      result.textContent = 'パーティーリストからロールを変更しました。現在の場面のまま続行できます。';
+    };
+  });
+}
+
+function renderDebuffTable(){ debuffTable.innerHTML=''; }
+function qBlock(key,title,choices,correct){
+  return `<div class="q"><b>${title}</b><div class="choices">${choices.map(ch=>{
+    const selected = answers[key]===ch;
+    const wrong = normalJudged && selected && ch!==correct;
+    const cls=[
+      selected?'selected':'',
+      showNormalAnswer && ch===correct?'correctAnswer':'',
+      wrong?'wrongAnswer':''
+    ].filter(Boolean).join(' ');
+    return `<button data-q="${key}" data-v="${ch}" class="${cls}">${ch}</button>`;
+  }).join('')}</div></div>`;
+}
+function normalPositionChoiceBlock(){
+  const opts = hardChoiceOptions(normalStep);
+  if(!opts.length) return '';
+  const correct = hardExpectedChoice(normalStep);
+  return `<div class="q"><b>この場面の立ち位置選択肢</b><div class="choices">${opts.map(ch=>{
+    const cls = [showNormalAnswer && ch===correct ? 'correctAnswer' : ''].filter(Boolean).join(' ');
+    return `<button class="${cls}" type="button">${ch}</button>`;
+  }).join('')}</div><div class="muted" style="margin-top:6px">Normalでは「判定」または「正解を表示」を押すと正解が緑で表示されます。Hardではマップ上の○を選んで判定します。</div></div>`;
+}
+function strategyNote(){
+  if(isPoikos()) return 'Poikos式：Poikos準拠の位置をもとにした処理。';
+  return isDnLike() && !isPoikos()
+    ? 'ヤーン（DN/正攻法）式：デバフ・秒数・優先度で処理する方式。'
+    : 'ヤーン（TLB3）式：風クリスタルと水クリスタル基準のロール固定位置式。';
+}
+function stepTargetLabel(step){
+  const d=dirForHardStep(step);
+  if(step===3) return d;
+  const kind = Object.entries(state.crystals).find(([k,v])=>v===d)?.[0];
+  return kind==='fire'?'炎クリスタル側':kind==='water'?'水クリスタル側':kind==='wind'?'風クリスタル側':kind==='empty'?'風クリ対面の空き側':'指定エリア';
+}
+
+function tlbRoleGroup(role){
+  if(role==='MT' || role==='ST') return 'tank';
+  if(role==='H1' || role==='H2') return 'healer';
+  return 'dps';
+}
+function tlbRoleBaseDir(role, step=0){
+  if(step===5) return '中央';
+
+  if(step===1 || step===2 || step===3){
+    if(role==='D3' || role==='D4') return state.crystals.water;
+    return state.crystals.wind;
+  }
+  if(tlbRoleGroup(role)==='healer') return state.crystals.water;
+  return state.crystals.wind;
+}
+function tlbPositionLabel(role, step=0){
+  const g=tlbRoleGroup(role), d=tlbRoleBaseDir(role, step);
+  if(step===1 || step===2 || step===3){
+    if(role==='D1' || role==='D2') return `風クリ外周（${d}方向）`;
+    if(['MT','ST','H1','H2'].includes(role)) return `風クリ内周（${d}方向）`;
+    if(role==='D4') return `水クリの風クリ側（${d}方向）`;
+    if(role==='D3') return `水クリの外側（${d}方向）`;
+  }
+  if(step===4) return role==='D3' ? '風クリ対角で距離減衰誘導' : 'エクスデス側へ移動';
+  if(step===5) return '中央集合';
+  if(g==='tank') return `風クリ側中央寄り（${d}方向・カオスサークル外）`;
+  if(g==='healer') return `水クリ側外周（${d}方向・マーカー間寄り）`;
+  return `風クリ側外周（${d}方向・カオスサークル外）`;
+}
+
+function isYanDN(){ return strategySelect && strategySelect.value==='yanDN'; }
+function isPoikos(){ return strategySelect && strategySelect.value==='poikos'; }
+function isDnLike(){ return isYanDN() || isPoikos(); }
+function strategyLabel(){
+  if(isPoikos()) return 'Poikos式';
+  return isYanDN() ? 'ヤーン（DN/正攻法）式' : 'ヤーン（TLB3）式';
+}
+function dnPriorityIndex(role){ return ["MT","ST","H1","H2","D1","D2","D3","D4"].indexOf(role); }
+function secondElement(){ return state.first==='fire' ? 'water' : 'fire'; }
+function elementJa(e){ return e==='fire' ? '炎' : e==='water' ? '水' : '風'; }
+function elementCrystalLabel(e){ return e==='fire' ? '炎クリスタル' : '水クリスタル'; }
+function oppositeElement(e){ return e==='fire' ? 'water' : 'fire'; }
+function dnMembersOfElement(element){
+  return roles.filter(r=>state.players[r].element===element).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+}
+function dnWindOnlyTH(){
+  return roles.filter(r=>state.players[r].element==='windOnly' && ['MT','ST','H1','H2'].includes(r))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+}
+function dnWindOnlyDPS(){
+  return roles.filter(r=>state.players[r].element==='windOnly' && r.startsWith('D'))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+}
+function dnWindAnswer(role){
+  const th=dnWindOnlyTH(), dps=dnWindOnlyDPS();
+  if(role===th[0]) return '風クリ内側誘導';
+  if(role===th[1]) return '風クリ外側誘導';
+  if(role===dps[0]) return '風クリ内側受け';
+  if(role===dps[1]) return '風クリ外側受け';
+  return '風クリ処理';
+}
+function dnResolveAnswer(role, resolvingElement){
+  const p = state.players[role];
+  if(p.element===resolvingElement){
+    const members = dnMembersOfElement(resolvingElement);
+    return role===members[0] ? '発動クリ内側' : '発動クリ外側';
+  }
+  if(p.element!=='windOnly') return '反対属性受け';
+  return dnWindAnswer(role);
+}
+function dnRolesForAnswer(phase, answer){
+  const resolving = phase===1 ? state.first : secondElement();
+  const active = dnMembersOfElement(resolving);
+  const opposite = roles.filter(r=>state.players[r].element===oppositeElement(resolving))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const th=dnWindOnlyTH(), dps=dnWindOnlyDPS();
+  const map={
+    '発動クリ内側': active[0]?[active[0]]:[],
+    '発動クリ外側': active[1]?[active[1]]:[],
+    '反対属性受け': opposite,
+    '風クリ内側誘導': th[0]?[th[0]]:[],
+    '風クリ外側誘導': th[1]?[th[1]]:[],
+    '風クリ内側受け': dps[0]?[dps[0]]:[],
+    '風クリ外側受け': dps[1]?[dps[1]]:[]
+  };
+  return map[answer] || [];
+}
+function dnAnswerLabel(phase, answer, fallback){
+  const rs = dnRolesForAnswer(phase, answer);
+  return rs.length ? rs.join('/') : fallback;
+}
+function dnVacuumPrepAnswer(role){
+  if(role==='D3') return 'D3誘導';
+  return '全員集合';
+}
+function dnFinalRoleBuckets(){
+  const windOnlyTH = roles.filter(r=>state.players[r].element==='windOnly' && ['MT','ST','H1','H2'].includes(r))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const windOnlyDPS = roles.filter(r=>state.players[r].element==='windOnly' && r.startsWith('D'))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const debuffTH = roles.filter(r=>state.players[r].element!=='windOnly' && ['MT','ST','H1','H2'].includes(r))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const debuffDPS = roles.filter(r=>state.players[r].element!=='windOnly' && r.startsWith('D'))
+    .sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  return {windOnlyTH, windOnlyDPS, debuffTH, debuffDPS};
+}
+function dnFinalAnswer(role){
+  const b = dnFinalRoleBuckets();
+  const map = {
+    '内側TH外周側': b.windOnlyTH[0]||'',
+    '内側TH内側': b.windOnlyTH[1]||'',
+    '内側DPS外周側': b.windOnlyDPS[0]||'',
+    '内側DPS内側': b.windOnlyDPS[1]||'',
+    '外側TH外周側': b.debuffTH[0]||'',
+    '外側TH内側': b.debuffTH[1]||'',
+    '外側DPS外周側': b.debuffDPS[0]||'',
+    '外側DPS内側': b.debuffDPS[1]||''
+  };
+  for(const [k,v] of Object.entries(map)){
+    if(v===role) return k;
+  }
+  return '';
+}
+
+function poikosWindOnlyDPS(){
+  const order=['D4','D3','D2','D1'];
+  return roles.filter(r=>state.players[r].element==='windOnly' && r.startsWith('D')).sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+}
+function poikosResolveAnswer(role, resolvingElement){
+  const p = state.players[role];
+  if(p.element===resolvingElement) return role.startsWith('D') ? '発動クリ風側' : '発動クリ反風側';
+  if(p.element!=='windOnly') return '待機位置';
+  const th=dnWindOnlyTH(), dps=poikosWindOnlyDPS();
+  if(role===th[0]) return '風左1';
+  if(role===th[1]) return '風左2';
+  if(role===dps[0]) return '風右1';
+  if(role===dps[1]) return '風右2';
+  return '風左1';
+}
+function poikosRolesForAnswer(phase, answer){
+  const resolving = phase===1 ? state.first : secondElement();
+  const resolvingRoles = dnMembersOfElement(resolving);
+  const waiting = roles.filter(r=>state.players[r].element===oppositeElement(resolving)).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const th=dnWindOnlyTH(), dps=poikosWindOnlyDPS();
+  const map={
+    '発動クリ風側': resolvingRoles.filter(r=>r.startsWith('D')),
+    '発動クリ反風側': resolvingRoles.filter(r=>!r.startsWith('D')),
+    '待機位置': waiting,
+    '風左1': th[0]?[th[0]]:[],
+    '風左2': th[1]?[th[1]]:[],
+    '風右1': dps[0]?[dps[0]]:[],
+    '風右2': dps[1]?[dps[1]]:[]
+  };
+  return map[answer]||[];
+}
+function poikosAnswerLabel(phase, answer, fallback){
+  const rs = poikosRolesForAnswer(phase, answer);
+  return rs.length ? rs.join('/') : fallback;
+}
+function poikosOrderedRoles(windOnly){
+  const list = roles.filter(r=>windOnly ? state.players[r].element==='windOnly' : state.players[r].element!=='windOnly');
+  const healer = list.filter(r=>['H1','H2'].includes(r)).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const tank = list.filter(r=>['MT','ST'].includes(r)).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const melee = list.filter(r=>['D1','D2'].includes(r)).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const ranged = list.filter(r=>['D3','D4'].includes(r)).sort((a,b)=>dnPriorityIndex(a)-dnPriorityIndex(b));
+  const ordered=[...healer,...tank,...melee,...ranged];
+  while(ordered.length<4) ordered.push('');
+  return ordered.slice(0,4);
+}
+function poikosFinalAnswer(role){
+  const outer=poikosOrderedRoles(true), inner=poikosOrderedRoles(false);
+  const slots=['外列1','外列2','外列3','外列4','内列1','内列2','内列3','内列4'];
+  const map={
+    '外列1':outer[0]||'','外列2':outer[1]||'','外列3':outer[2]||'','外列4':outer[3]||'',
+    '内列1':inner[0]||'','内列2':inner[1]||'','内列3':inner[2]||'','内列4':inner[3]||''
+  };
+  for(const s of slots){ if(map[s]===role) return s; }
+  return '';
+}
+function lpSide(role){
+  return ['MT','H1','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
+}
+function phaseNames(){
+  if(isPoikos()) return ['MT組/ST組分かれ','1回目 火水＋風処理','インプロージョン安置','2回目 火水＋風処理','真空波前準備＋アルテマ突進','真空波＋2人受け','アルテマブラスター散開'];
+  if(isYanDN()) return ['MT組/ST組分かれ','1回目 炎水＋風処理','インプロージョン安置','2回目 炎水＋風処理','真空波前準備＋アルテマ突進','真空波＋2人受け','アルテマブラスター散開'];
+  return ['MT組/ST組分かれ','1回目処理 / TLB固定位置','インプロージョン安置','2回目処理 / 2枚目と同じ','真空波前準備＋アルテマ突進','真空波/TLB3','アルテマブラスター散開'];
+}
+function tlbPhaseNames(){ return phaseNames(); }
+function getNormalStepSpec(){
+  if(isPoikos()) return getNormalStepSpecPoikos();
+  return isYanDN() ? getNormalStepSpecYanDN() : getNormalStepSpecYanTLB();
+}
+function getNormalStepSpecYanTLB(){
+  const me=roleSelect.value;
+  const firstJ=state.first==='fire'?'炎':'水';
+  const secondJ=state.first==='fire'?'水':'炎';
+  const imp=state.implosion;
+  const impFirst=imp==='ホリゾンタル'?'前後安置':'左右安置';
+  const impSecond=imp==='ホリゾンタル'?'左右安置':'前後安置';
+  const specs=[
+    {
+      title:'Step 1：MT組 / ST組分かれ',
+      help:'左にカオス、右にエクスデス。カオス側は MT・H1・D1・D2、エクスデス側は ST・H2・D3・D4。',
+      qs:[
+        {key:'lp', title:'カオス側の基本担当は？', choices:['MT・H1・D1・D2','ST・H2・D3・D4','MT・H1・D1・D3','ST・H2・D2・D4'], correct:'MT・H1・D1・D2'},
+        {key:'side', title:`${me}が最初に入る側は？`, choices:['カオス側','エクスデス側'], correct:lpSide(me)}
+      ]
+    },
+    {
+      title:`Step 2：1回目処理（${firstJ}18秒）`,
+      help:'早い炎/水の発動に合わせて固定位置で処理する。',
+      qs:[
+        {key:'firstCrystal', title:'1回目に発動するクリスタルは？', choices:['炎クリスタル','水クリスタル'], correct:state.first==='fire'?'炎クリスタル':'水クリスタル'},
+        {key:'firstPlace', title:`${me}の1回目の立ち位置は？`, choices:['風クリ外周','風クリ内周','水クリの風クリ側','水クリの外側'], correct: hardExpectedChoice(1)},
+        {key:'barrier', title:'TLB3式の炎処理で意識することは？', choices:['炎ダメージを完全回避する','炎ダメージは受けるのでバリア前提','全員アムレンする','全員水クリに集合する'], correct:'炎ダメージは受けるのでバリア前提'}
+      ]
+    },
+    {
+      title:`Step 3：インプロージョン（${imp}）`,
+      help:'カオスは風クリスタル上、45度の向き。1回目と2回目の安置が切り替わる。',
+      qs:[
+        {key:'chaosPlace', title:'TLB3式でカオスを置く場所は？', choices:['風クリスタル上','水クリスタル上','炎クリスタル上','中央固定'], correct:'風クリスタル上'},
+        {key:'chaosFace', title:'カオスの向きは？', choices:['0度','45度','90度','ランダムでよい'], correct:'45度'},
+        {key:'impSafe', title:`${imp}の安置順は？`, choices:[`最初${impFirst}→次${impSecond}`,`最初${impSecond}→次${impFirst}`], correct:`最初${impFirst}→次${impSecond}`}
+      ]
+    },
+    {
+      title:`Step 4：2回目処理（${secondJ}45秒）`,
+      help:'2回目の処理位置は1回目と同じ。',
+      qs:[
+        {key:'secondCrystal', title:'2回目に発動するクリスタルは？', choices:['炎クリスタル','水クリスタル'], correct:state.first==='fire'?'水クリスタル':'炎クリスタル'},
+        {key:'secondPlace', title:`${me}の2回目の立ち位置は？`, choices:['風クリ外周','風クリ内周','水クリの風クリ側','水クリの外側'], correct: hardExpectedChoice(3)},
+        {key:'same', title:'2回目の処理位置は？', choices:['1回目と同じ','全員中央','D3だけ対角','完全ランダム'], correct:'1回目と同じ'}
+      ]
+    },
+    {
+      title:'Step 5：真空波前準備',
+      help:'カオスは風クリ対角で距離減衰。D3が誘導し、他はエクスデス側へ集合。真空波7割くらいでタンクLB3。',
+      qs:[
+        {key:'tlb', title:'真空波詠唱7割くらいで使うものは？', choices:['タンクLB3','近接LB3','ヒラLB3','何も使わない'], correct:'タンクLB3'},
+        {key:'d3job', title:'D3の主な役割は？', choices:['距離減衰誘導','エクスデスMT','全員蘇生','水クリ誘導'], correct:'距離減衰誘導'},
+        {key:'othersPlace', title:'D3がアンブラスマッシュを誘導後、距離減衰はどこで全員集まって受ける？', choices:['エクスデス側','中央','水クリ側','風クリ対角'], correct:'エクスデス側'}
+      ]
+    },
+    {
+      title:'Step 6：真空波後',
+      help:'ノックバック後、風のペア頭割り4個を全員中央集合で受ける。',
+      qs:[
+        {key:'heads', title:'ノックバック後に着弾するのは？', choices:['風のペア頭割り4個','炎の塔4本','水の直線4本','散会8方向'], correct:'風のペア頭割り4個'},
+        {key:'finalPlace', title:'TLB式での最終位置は？', choices:['中央集合','エクスデス側','風クリ対角','水クリ外周'], correct:'中央集合'},
+        {key:'all', title:'受け方は？', choices:['全員で中央受け','タンク4人だけ','DPSだけ集合','ペアごとに分散'], correct:'全員で中央受け'}
+      ]
+    }
+  ];
+  return specs[normalStep] || null;
+}
+function getNormalStepSpecYanDN(){
+  const me=roleSelect.value;
+  const first=state.first;
+  const second=secondElement();
+  const firstJ=elementJa(first);
+  const secondJ=elementJa(second);
+  const imp=state.implosion;
+  const impFirst=imp==='ホリゾンタル'?'前後安置':'左右安置';
+  const impSecond=imp==='ホリゾンタル'?'左右安置':'前後安置';
+  const stBait = elementCrystalLabel(oppositeElement(first));
+  const specs=[
+    {
+      title:'Step 1：MT組 / ST組分かれ',
+      help:'DN式でも最初はライトパーティに分かれる。',
+      qs:[
+        {key:'lp', title:'カオス側の基本担当は？', choices:['MT・H1・D1・D2','ST・H2・D3・D4','MT・H1・D1・D3','ST・H2・D2・D4'], correct:'MT・H1・D1・D2'},
+        {key:'side', title:`${me}が最初に入る側は？`, choices:['カオス側','エクスデス側'], correct:lpSide(me)}
+      ]
+    },
+    {
+      title:`Step 2：1回目 ${firstJ}処理`,
+      help:'18秒の短い属性を先に処理する。カオスは中央、エクスデスは長い属性側のクリスタルへSTが誘導。短い属性持ちは発動クリスタルを内周/外周で挟み、反対属性持ちは中央付近の発動クリ寄りでノックバックを受ける。風のみは風クリをTHが誘導し、DPSが近くで受ける。',
+      qs:[
+        {key:'firstElement', title:'1回目に処理する属性は？', choices:['炎','水'], correct:firstJ},
+        {key:'stBait', title:'STがエクスデスを誘導する先は？', choices:['炎クリスタル','水クリスタル','風クリスタル','中央'], correct:stBait},
+        {key:'myDn1', title:`${me}の1回目の役割は？`, choices:hardChoiceOptions(1), correct:hardExpectedChoice(1)}
+      ]
+    },
+    {
+      title:`Step 3：インプロージョン（${imp}）`,
+      help:'カオスとエクスデスは中央に重ねる。MTはカオスを、風クリスタルと後に発動する属性クリスタルの中間方向へ向ける。X字4分割の安置判定はTLB式と同じ。',
+      qs:[
+        {key:'chaosDir', title:'DN式でMTはカオスをどこへ向ける？', choices:['風クリと未発動属性クリの中間','風クリスタル上','水クリスタル上','中央固定'], correct:'風クリと未発動属性クリの中間'},
+        {key:'exMove', title:'STはエクスデスをどこへ誘導する？', choices:['中央でカオスに重ねる','風クリスタル','水クリスタル','外周'], correct:'中央でカオスに重ねる'},
+        {key:'impSafe', title:`${imp}の安置順は？`, choices:[`最初${impFirst}→次${impSecond}`,`最初${impSecond}→次${impFirst}`], correct:`最初${impFirst}→次${impSecond}`}
+      ]
+    },
+    {
+      title:`Step 4：2回目 ${secondJ}処理`,
+      help:'後から発動する炎/水デバフ持ち2人が、後から発動するクリスタルを内周/外周で挟む。優先順位は内側から MT > ST > H1 > H2 > D1 > D2 > D3 > D4。先に発動するデバフを持っていた2人は中央付近の後発クリ寄り。炎水デバフがつかない4人は2枚目と同じ動き。',
+      qs:[
+        {key:'secondElement', title:'2回目に処理する属性は？', choices:['炎','水'], correct:secondJ},
+        {key:'myDn2', title:`${me}の2回目の役割は？`, choices:hardChoiceOptions(3), correct:hardExpectedChoice(3)},
+        {key:'sameWind', title:'風クリスタル処理は？', choices:['1回目と同様に処理','全員中央','D3だけ処理','無視する'], correct:'1回目と同様に処理'}
+      ]
+    },
+    {
+      title:'Step 5：真空波前準備',
+      help:'STはエクスデスを風クリスタルへ、D3はアンブラスマッシュを風クリスタル反対側へ誘導する。',
+      qs:[
+        {key:'stWind', title:'STはエクスデスをどこへ誘導する？', choices:['風クリスタル','中央','水クリスタル','炎クリスタル'], correct:'風クリスタル'},
+        {key:'d3job', title:'D3の主な役割は？', choices:['アンブラスマッシュ誘導','距離減衰中央受け','全員蘇生','水クリ誘導'], correct:'アンブラスマッシュ誘導'},
+        {key:'myDn5', title:`${me}の真空波前の役割は？`, choices:['D3誘導','全員集合'], correct:hardExpectedChoice(4)}
+      ]
+    },
+    {
+      title:'Step 6：真空波＋風クリ2人受け',
+      help:'エクスデス正面基準で左がTH、右がDPS。内側4人は炎水デバフなし、外側4人は炎水デバフあり。どちらも外周側から円の中心側へ優先順に並ぶ。',
+      qs:[
+        {key:'thOrder', title:'TH側の優先順位は？', choices:['MT < ST < H1 < H2','H2 < H1 < ST < MT','MT < H1 < ST < H2','ST < MT < H1 < H2'], correct:'MT < ST < H1 < H2'},
+        {key:'dpsOrder', title:'DPS側の優先順位は？', choices:['D1 < D2 < D3 < D4','D4 < D3 < D2 < D1','D1 < D3 < D2 < D4','D2 < D1 < D3 < D4'], correct:'D1 < D2 < D3 < D4'},
+        {key:'myDn6', title:`${me}の最終位置は？`, choices:hardChoiceOptions(5), correct:hardExpectedChoice(5)}
+      ]
+    }
+  ];
+  return specs[normalStep] || null;
+}
+
+function getNormalStepSpecPoikos(){
+  const me=roleSelect.value;
+  const first=state.first;
+  const second=secondElement();
+  const firstJ=elementJa(first), secondJ=elementJa(second);
+  const imp=state.implosion;
+  const impFirst=imp==='ホリゾンタル'?'前後安置':'左右安置';
+  const impSecond=imp==='ホリゾンタル'?'左右安置':'前後安置';
+  const specs=[
+    {
+      title:'Step 1：MT組 / ST組分かれ',
+      help:'Poikos式でも最初はMT組 / ST組で各ボス下に分かれる。',
+      qs:[
+        {key:'p_lp', title:'カオス側の基本担当は？', choices:['MT・H1・D1・D2','ST・H2・D3・D4'], correct:'MT・H1・D1・D2'},
+        {key:'p_side', title:`${me}が最初に入る側は？`, choices:['カオス側','エクスデス側'], correct:lpSide(me)}
+      ]
+    },
+    {
+      title:`Step 2：1回目 ${firstJ}処理`,
+      help:'先デバフ2人は先クリスタルを90度ずれた位置で処理し、風クリ側がDPS、反対側がタンヒラ。遅デバフ2人は先デバフTH側の近くで待機。風デバフ4人は風クリ外周側で2:2に分かれて受ける。',
+      qs:[
+        {key:'p_firstElem', title:'1回目に先に発動する属性は？', choices:['炎','水'], correct:firstJ},
+        {key:'p_ex', title:'エクスデスを重ねる先は？', choices:['遅い属性のクリスタル','早い属性のクリスタル','中央'], correct:'遅い属性のクリスタル'},
+        {key:'p_my1', title:`${me}の1回目の役割は？`, choices:hardChoiceOptions(1), correct: hardExpectedChoice(1)}
+      ]
+    },
+    {
+      title:`Step 3：インプロージョン（${imp}）`,
+      help:'3枚目はそのまま。詠唱を見てX字4分割の安置を選ぶ。',
+      qs:[
+        {key:'p_imp1', title:`${imp}の安置順は？`, choices:[`最初${impFirst}→次${impSecond}`,`最初${impSecond}→次${impFirst}`], correct:`最初${impFirst}→次${impSecond}`},
+        {key:'p_imp2', title:'この場面で確認するものは？', choices:['詠唱と次の散開位置','アルテマブラスターだけ','何も見なくてよい'], correct:'詠唱と次の散開位置'}
+      ]
+    },
+    {
+      title:`Step 4：2回目 ${secondJ}処理`,
+      help:'後デバフ2人が後クリスタルを90度ずれた位置で処理し、先デバフ2人はTH側近くで待機。風クリ4人は2枚目と同じ配置。',
+      qs:[
+        {key:'p_secondElem', title:'2回目に発動する属性は？', choices:['炎','水'], correct:secondJ},
+        {key:'p_secondRule', title:'2回目の基本は？', choices:['後発デバフ持ちが後発クリを処理','全員中央集合','D3のみ移動'], correct:'後発デバフ持ちが後発クリを処理'},
+        {key:'p_my2', title:`${me}の2回目の位置確認`, choices:hardChoiceOptions(3), correct: hardExpectedChoice(3)}
+      ]
+    },
+    {
+      title:'Step 5：真空波前準備',
+      help:'Poikos式5枚目ではカオスをフィールド中央に置く。',
+      qs:[
+        {key:'p_st2', title:'D3の主な役割は？', choices:['アンブラスマッシュ誘導','中央集合','ヒール専念'], correct:'アンブラスマッシュ誘導'},
+        {key:'p_d3', title:'カオスの基本位置は？', choices:['フィールド中央','風クリスタル上','炎クリスタル上'], correct:'フィールド中央'},
+        {key:'p_my5', title:`${me}の真空波前の役割は？`, choices:['D3誘導','全員集合'], correct: hardExpectedChoice(4)}
+      ]
+    },
+    {
+      title:'Step 6：真空波後',
+      help:'カオスのタゲサ上に風のみ4人、少し中心側に残り4人を、左からヒラ→タンク→近接→遠隔の順で並べる。',
+      qs:[
+        {key:'p_final1', title:'外側列に入るのは？', choices:['風デバフしかつかなかった4人','炎水デバフがついた4人','D3だけ'], correct:'風デバフしかつかなかった4人'},
+        {key:'p_final2', title:'各列の並び順は？', choices:['ヒラ→タンク→近接→遠隔','タンク→ヒラ→近接→遠隔','近接→遠隔→タンク→ヒラ'], correct:'ヒラ→タンク→近接→遠隔'},
+        {key:'p_final3', title:`${me}の最終位置は？`, choices:hardChoiceOptions(5), correct: hardExpectedChoice(5)}
+      ]
+    }
+  ];
+  return specs[normalStep] || null;
+}
+
+function renderQuestions(){
+  const hard=isMapLikeView();
+  if(typeof quizNextBtn!=='undefined') quizNextBtn.classList.toggle('hidden', hard);
+  questions.classList.toggle('hidden', hard);
+  if(hard){ questions.innerHTML=''; return; }
+  const spec=getNormalStepSpec();
+  if(!spec){ questions.innerHTML='<div class="hintBox"><b>クリア</b><br>Normal通し練習が完了しました。新しい問題で再挑戦できます。</div>'; return; }
+  questions.innerHTML = `<div class="stepbar">${phaseNames().map((s,i)=>`<span class="stepitem ${i===normalStep?'active':i<normalStep?'done':''}">${i+1}. ${s.replace(' / TLB固定位置','').replace(' / 2枚目と同じ','')}</span>`).join('')}</div>`+
+    `<div class="hintBox"><b>${spec.title}</b><br>${spec.help}<br><span class="muted">${strategyNote()}</span></div>`+
+    spec.qs.map(q=>qBlock(q.key,q.title,q.choices,q.correct)).join('')+
+    normalPositionChoiceBlock();
+  questions.querySelectorAll('button[data-q]').forEach(b=>b.onclick=()=>{answers[b.dataset.q]=b.dataset.v; showNormalAnswer=false; normalJudged=false; renderQuestions();});
+}
+function checkAnswers(){
+  const spec=getNormalStepSpec();
+  if(!spec){ result.innerHTML='<span class="ok">Normal通し完了</span>'; return; }
+  let lines=[], ok=0, total=spec.qs.length, answered=0;
+  for(const q of spec.qs){
+    const a=answers[q.key]||'未回答';
+    if(answers[q.key]) answered++;
+    const good=a===q.correct; if(good) ok++;
+    lines.push(`${good?'✅':'❌'} ${q.title.replace(/？$/,'')}：あなた=${a} / 正解=${q.correct}`);
+  }
+  normalJudged=true;
+  showNormalAnswer=true;
+  renderQuestions();
+  result.innerHTML = `<span class="${ok===total && answered===total?'ok':'warn'}">${ok}/${total} 正解</span>\n`+
+    lines.join('\n')+
+    `\n\n正解は緑、誤答は赤で表示しています。次へ進む場合は「次へ」を押してください。`;
+}
+function showAnswers(){
+  const spec=getNormalStepSpec();
+  if(!spec){ result.innerHTML='<span class="ok">Normal通し完了</span>'; return; }
+  normalJudged=false;
+  showNormalAnswer=true;
+  renderQuestions();
+  result.innerHTML = `<span class="ok">${spec.title} の回答</span>\n`+
+    spec.qs.map(q=>`${q.title.replace(/？$/,'')}：${q.correct}`).join('\n')+`\n\n${explain()}`;
+}
+function labelOf(k){return {early:'早い発動',firstCrystal:'1回目クリスタル',receiver:'利用側',category:'自分分類',timing:'解除タイミング',useCrystal:'使うもの',arm:'アムレン'}[k]}
+function explain(){
+  const f=state.first==='fire';
+  return f ? '炎18秒なので、炎本人の小円＋炎クリスタルのドーナツが先。水持ちは炎クリスタルのドーナツを利用して風を解除する。炎持ちは後半の水クリスタル小円で解除する。' :
+    '水18秒なので、水本人のドーナツ＋水クリスタルの小円が先。炎持ちは水クリスタルの小円を利用して風を解除する。水持ちは後半の炎クリスタルドーナツで解除する。';
+}
+function currentBaulMapPhase(){
+  if(displayMode!=='normal') return Math.min(hardStep,TOTAL_STEPS-1);
+  return Math.min(normalStep,5);
+}
+
+function renderArena(){
+  const svg=arena; const hard=isMapLikeView();
+  svg.innerHTML='';
+  const NS='http://www.w3.org/2000/svg';
+  const add=(tag,attrs,parent=svg)=>{const e=document.createElementNS(NS,tag); for(const [k,v] of Object.entries(attrs)) e.setAttribute(k,v); parent.appendChild(e); return e;};
+  add('defs',{}).innerHTML=`<filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><filter id="blueGlow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  add('circle',{cx:300,cy:300,r:230,fill:'#151a2e',stroke:'#7f8ab3','stroke-width':2,opacity:.9});
+  for(let x=70;x<=530;x+=57.5) add('line',{x1:x,y1:60,x2:x,y2:540,stroke:'#26304c','stroke-width':1});
+  for(let y=70;y<=530;y+=57.5) add('line',{x1:60,y1:y,x2:540,y2:y,stroke:'#26304c','stroke-width':1});
+  dirs.forEach(d=>{ const [x,y]=pos[d]; add('text',{x,y,fill:'#e8ecff','font-size':26,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=d; });
+  if(!tabUltima.classList.contains('active')) renderBaulSvg(add,hard); else renderUltimaSvg(add);
+  bindHardMapClicks();
+}
+function bindHardMapClicks(){
+  if(!isMapLikeView()) return;
+  arena.querySelectorAll('[data-hard-map-answer]').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('click', evt=>{
+      evt.preventDefault();
+      evt.stopPropagation();
+      const answer=el.getAttribute('data-hard-map-answer');
+      if(hardStep===2){
+        selectImplosionArea(answer);
+      } else {
+        hardSelectedChoice=answer;
+        resetHardJudgeState();
+        renderHardPractice();
+        renderArena();
+        result.textContent=`選択中：${hardSelectedChoice}`;
+      }
+    });
+  });
+}
+function makeImplosionClick(region, idx){
+  const seq=implosionSafeSeq();
+  const expected=seq[idx];
+  const clickedGroup=implosionRegionGroup(region);
+  return {clicked:region, expected, clickedGroup, ok:clickedGroup===expected};
+}
+function selectImplosionArea(region){
+  if(hardStep!==2) return;
+  resetHardJudgeState();
+  if(isPracticeImplosionPhase()){
+    hardSelectedChoice=region;
+    hardImplosionClicks=[makeImplosionClick(region, currentPracticeSegment().key==='imp1'?0:1)];
+    renderHardPractice();
+    renderArena();
+    result.textContent=`選択中：${implosionRegionShort(region)}側`;
+    return;
+  }
+
+  // クリックしなおし：
+  // 1つだけ選択済みのときに同じ場所をクリックすると取り消し。
+  // 2つ選択済みのときは、選んだ場所に応じて1回目/2回目を入れ替え・修正できる。
+  if(hardImplosionClicks.length===0){
+    hardImplosionClicks.push(makeImplosionClick(region, 0));
+  } else if(hardImplosionClicks.length===1){
+    if(hardImplosionClicks[0].clicked===region){
+      hardImplosionClicks.pop();
+    } else {
+      hardImplosionClicks.push(makeImplosionClick(region, 1));
+    }
+  } else {
+    const firstSame = hardImplosionClicks[0].clicked===region;
+    const secondSame = hardImplosionClicks[1].clicked===region;
+    if(firstSame){
+      hardImplosionClicks.shift();
+      if(hardImplosionClicks[0]) hardImplosionClicks[0]=makeImplosionClick(hardImplosionClicks[0].clicked,0);
+    } else if(secondSame){
+      hardImplosionClicks.pop();
+    } else {
+      hardImplosionClicks[1]=makeImplosionClick(region,1);
+    }
+  }
+
+  hardSelectedChoice='';
+  renderHardPractice();
+  renderArena();
+  if(hardImplosionClicks.length===0){
+    result.textContent='選択を取り消しました。1回目安置を選んでください。';
+  } else if(hardImplosionClicks.length===1){
+    result.textContent = `1回目：${implosionRegionShort(hardImplosionClicks[0].clicked)}側を選択中。クリックしなおし可能です。続けて2回目を選択してください。`;
+  } else {
+    result.textContent = `1回目：${implosionRegionShort(hardImplosionClicks[0].clicked)}側 / 2回目：${implosionRegionShort(hardImplosionClicks[1].clicked)}側を選択中。クリックしなおし可能です。判定を押してください。`;
+  }
+}
+function renderBaulSvg(add,hard){
+  const colors={fire:'#ff5a3d',water:'#39a7ff',wind:'#63d66f'};
+  if(hard && hardStep===6){
+    drawBlasterAnswerSlide(add);
+    return;
+  }
+  if(hard && hardStep>=TOTAL_STEPS){
+    add('circle',{cx:300,cy:300,r:126,fill:'rgba(21,26,46,.86)',stroke:'#4ade80','stroke-width':4});
+    add('text',{x:300,y:278,fill:'#ffffff','font-size':24,'font-weight':900,'text-anchor':'middle'}).textContent='通し練習完了';
+    add('text',{x:300,y:310,fill:'#bcffc3','font-size':15,'font-weight':800,'text-anchor':'middle'}).textContent='バウル＋アルテマの回答が終了しました';
+    add('text',{x:300,y:338,fill:'#aeb8d7','font-size':13,'font-weight':700,'text-anchor':'middle'}).textContent='別の問題で再挑戦できます';
+    return;
+  }
+  const phase = currentBaulMapPhase();
+  const showCrystals = !(phase===0);
+  if(showCrystals){
+    for(const kind of ['fire','water','wind']){
+      const d=state.crystals[kind], [x,y]=crystalPos(d), col=colors[kind];
+      if(kind==='fire'){
+        add('polygon',{points:`${x},${y-26} ${x+24},${y+18} ${x-24},${y+18}`,fill:col,opacity:.92,stroke:'#ffffff','stroke-width':2.5,filter:'url(#glow)'});
+        add('polygon',{points:`${x},${y-16} ${x+14},${y+10} ${x-14},${y+10}`,fill:col,opacity:1,stroke:col,'stroke-width':3});
+      } else if(kind==='water'){
+        add('circle',{cx:x,cy:y,r:24,fill:col,opacity:.92,stroke:'#ffffff','stroke-width':2.5,filter:'url(#glow)'});
+        add('circle',{cx:x,cy:y,r:14,fill:col,opacity:1,stroke:col,'stroke-width':3});
+      } else {
+        add('polygon',{points:`${x},${y-24} ${x+24},${y} ${x},${y+24} ${x-24},${y}`,fill:col,opacity:.9,stroke:'#ffffff','stroke-width':2.5,filter:'url(#glow)'});
+        add('polygon',{points:`${x},${y-16} ${x+16},${y} ${x},${y+16} ${x-16},${y}`,fill:col,opacity:1,stroke:col,'stroke-width':3});
+      }
+      if(!hard) add('text',{x,y:y-30,fill:col,'font-size':15,'font-weight':800,'text-anchor':'middle'}).textContent={fire:'炎クリ',water:'水クリ',wind:'風クリ'}[kind];
+    }
+  }
+  drawTlbBosses(add);
+  drawTlbRoleGuides(add, hard);
+  if(isPracticeView()) drawPracticeNotice(add);
+  if(phase===2){
+    const savedShow = hardShowAnswer;
+    if(!hard) hardShowAnswer = true;
+    drawImplosionAreaSelector(add, hard);
+    hardShowAnswer = savedShow;
+  } else if(phase<=5){
+    if(hard){
+      const handled = drawHardPhaseMapChoices(add, phase);
+      if(!handled){
+        const rolePos = computeTlbHardRolePositions(phase);
+        roles.forEach(r=>{ const [x,y]=rolePos[r]; drawHardRoleCircle(add,x,y,r,phase); });
+      }
+    } else {
+      const savedShow = hardShowAnswer;
+      hardShowAnswer = true;
+      drawHardPhaseMapChoices(add, phase);
+      hardShowAnswer = savedShow;
+    }
+  } else {
+    const offsets={fire:[[-18,-18],[18,18]],water:[[-18,18],[18,-18]],windOnly:[[-28,0],[28,0],[0,-28],[0,28]]};
+    const counts={fire:0,water:0,windOnly:0};
+    roles.forEach(r=>{
+      const p=state.players[r], kind=p.element;
+      let base= kind==='fire'?crystalPos(state.crystals.fire):kind==='water'?crystalPos(state.crystals.water):crystalPos(state.crystals.wind);
+      const arr=offsets[kind], idx=counts[kind]++ % arr.length;
+      let x=base[0]+arr[idx][0], y=base[1]+arr[idx][1];
+      const fill = r===roleSelect.value ? '#496dff' : (r.startsWith('D')?'#9b3f4c':'#3f9b60');
+      add('circle',{cx:x,cy:y,r:r===roleSelect.value?17:15,fill,stroke:r===roleSelect.value?'#ffffff':'#dfe6ff','stroke-width':r===roleSelect.value?3:1.5});
+      add('text',{x,y:y+1,fill:'#fff','font-size':12,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=r;
+      if(!hard && p.duration){ add('text',{x,y:y+28,fill:p.element==='fire'?'#ffb2a5':'#addcff','font-size':13,'font-weight':800,'text-anchor':'middle'}).textContent=p.duration+'s'; }
+    });
+  }
+  drawBlasterRushOverlay(add);
+  const phaseNames = tlbPhaseNames();
+  const phaseIndex = displayMode!=='normal' ? Math.min(hardStep,TOTAL_STEPS-1) : Math.min(normalStep,5);
+  const phaseText = `通し練習：${phaseIndex+1}/${TOTAL_STEPS} ${phaseNames[phaseIndex]||'完了'} / ${roleSelect.value}`;
+  add('text',{x:300,y:585,fill:'#e9edff','font-size':16,'font-weight':800,'text-anchor':'middle'}).textContent = phaseText;
+}
+function polarPoint(dir, radius=195){
+  const [x,y]=pos[dir];
+  const dx=x-center[0], dy=y-center[1];
+  const len=Math.hypot(dx,dy)||1;
+  return [center[0]+dx/len*radius, center[1]+dy/len*radius];
+}
+
+function computeTlbHardRolePositions(phase){
+  if(phase===0){
+    // 1枚目は各ボスのターゲットサークル中央寄りに4人を配置
+    return {
+      MT:[190,278], H1:[230,278], D1:[190,322], D2:[230,322],
+      ST:[370,278], H2:[410,278], D3:[370,322], D4:[410,322]
+    };
+  }
+  const wind = crystalPos(state.crystals.wind);
+  const water = crystalPos(state.crystals.water);
+  const empty = crystalPos(state.crystals.empty);
+  const wdx = wind[0]-center[0], wdy = wind[1]-center[1];
+  const wlen = Math.hypot(wdx,wdy) || 1;
+  const wn = [wdx/wlen, wdy/wlen];
+  const wp = [-wn[1], wn[0]];
+  const inner = [wind[0]-wn[0]*42, wind[1]-wn[1]*42];
+  const outer = [wind[0]+wn[0]*42, wind[1]+wn[1]*42];
+
+  const uwdx = water[0]-center[0], uwdy = water[1]-center[1];
+  const uwlen = Math.hypot(uwdx,uwdy) || 1;
+  const uwn = [uwdx/uwlen, uwdy/uwlen];
+  let uwp = [-uwn[1], uwn[0]];
+  const toWind = [wind[0]-water[0], wind[1]-water[1]];
+  const side = (uwp[0]*toWind[0] + uwp[1]*toWind[1]) >= 0 ? 1 : -1;
+  uwp = [uwp[0]*side, uwp[1]*side];
+  const d4 = [water[0]+uwp[0]*38+uwn[0]*5, water[1]+uwp[1]*38+uwn[1]*5];
+  const d3 = [water[0]-uwp[0]*38+uwn[0]*5, water[1]-uwp[1]*38+uwn[1]*5];
+
+  if(phase===4){
+    const ex = wind;
+    const cluster = tlbExdeathStackCenter();
+    const d3n = [(empty[0]-center[0])/(Math.hypot(empty[0]-center[0], empty[1]-center[1])||1), (empty[1]-center[1])/(Math.hypot(empty[0]-center[0], empty[1]-center[1])||1)];
+    return {
+      MT:[cluster[0]-18, cluster[1]-18], ST:[cluster[0]+18, cluster[1]-18], H1:[cluster[0]-18, cluster[1]+18], H2:[cluster[0]+18, cluster[1]+18],
+      D1:[cluster[0]-40, cluster[1]], D2:[cluster[0], cluster[1]-40], D4:[cluster[0]+40, cluster[1]],
+      D3:[empty[0]-d3n[0]*18, empty[1]-d3n[1]*18]
+    };
+  }
+  if(phase===5){
+    return {
+      MT:[276,276], ST:[324,276], H1:[276,324], H2:[324,324],
+      D1:[252,300], D2:[300,252], D3:[348,300], D4:[300,348]
+    };
+  }
+  return {
+    D1:[outer[0]-wp[0]*16, outer[1]-wp[1]*16],
+    D2:[outer[0]+wp[0]*16, outer[1]+wp[1]*16],
+    MT:[inner[0]-wp[0]*16-wn[0]*6, inner[1]-wp[1]*16-wn[1]*6],
+    ST:[inner[0]+wp[0]*16-wn[0]*6, inner[1]+wp[1]*16-wn[1]*6],
+    H1:[inner[0]-wp[0]*36+wn[0]*8, inner[1]-wp[1]*36+wn[1]*8],
+    H2:[inner[0]+wp[0]*36+wn[0]*8, inner[1]+wp[1]*36+wn[1]*8],
+    D4:d4,
+    D3:d3,
+  };
+}
+function drawFacingLine(add, from, len, color){
+  const dx=center[0]-from[0], dy=center[1]-from[1];
+  const l=Math.hypot(dx,dy)||1;
+  add('line',{x1:from[0],y1:from[1],x2:from[0]+dx/l*len,y2:from[1]+dy/l*len,stroke:color,'stroke-width':3,opacity:.8});
+}
+function dnRemainingMidpoint(){
+  const wind=crystalPos(state.crystals.wind);
+  const later=crystalPos(state.crystals[secondElement()]);
+  return [(wind[0]+later[0])/2, (wind[1]+later[1])/2];
+}
+function drawFacingLineTo(add, from, target, len, color){
+  const dx=target[0]-from[0], dy=target[1]-from[1];
+  const l=Math.hypot(dx,dy)||1;
+  add('line',{x1:from[0],y1:from[1],x2:from[0]+dx/l*len,y2:from[1]+dy/l*len,stroke:color,'stroke-width':3,opacity:.85});
+}
+function drawFacingOutward(add, from, len, color){
+  const dx=from[0]-center[0], dy=from[1]-center[1];
+  const l=Math.hypot(dx,dy)||1;
+  add('line',{x1:from[0],y1:from[1],x2:from[0]+dx/l*len,y2:from[1]+dy/l*len,stroke:color,'stroke-width':3,opacity:.9});
+}
+function drawFacingOutwardRot90(add, from, len, color){
+  const dx=from[0]-center[0], dy=from[1]-center[1];
+  const l=Math.hypot(dx,dy)||1;
+  // 外周向きベクトルを90度回転（時計回り）
+  const rx=dy/l, ry=-dx/l;
+  add('line',{x1:from[0],y1:from[1],x2:from[0]+rx*len,y2:from[1]+ry*len,stroke:color,'stroke-width':3,opacity:.9});
+}
+function drawSelectedRing(add,x,y,r,answer,selectable=true){
+  const phase = currentBaulMapPhase();
+  if(phase===2) return;
+  const expected = currentPracticeExpectedChoice(phase);
+  if(!(hardJudged || hardShowAnswer) || !expected) return;
+  if(answer!==expected) return;
+  const extra = selectable ? {'data-hard-map-answer':answer} : {};
+  add('circle',{cx:x,cy:y,r:r,fill:'none',stroke:'#ffd84d','stroke-width':4,opacity:.98,...extra});
+}
+function getHardAnswerVisual(answer, phase=currentBaulMapPhase()){
+  const expected = phase===2 ? null : currentPracticeExpectedChoice(phase);
+  if(hardJudged && phase!==2 && expected){
+    if(answer===expected) return 'correct';
+    if(hardSelectedChoice===answer && !hardJudgeCorrect) return 'wrong';
+  }
+  if(hardShowAnswer && phase!==2 && expected && answer===expected) return 'correct';
+  if(hardSelectedChoice===answer) return 'selected';
+  return 'neutral';
+}
+function hardMapAnswerForRole(step, role){
+  if(step===0) return ['MT','H1','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
+  if(step===1 || step===3){
+    if(['D1','D2'].includes(role)) return '風クリ外周';
+    if(['MT','ST','H1','H2'].includes(role)) return '風クリ内周';
+    if(role==='D4') return '水クリの風クリ側';
+    if(role==='D3') return '水クリの外側';
+  }
+  if(step===4) return role==='D3' ? '風クリ対角' : 'エクスデス側';
+  if(step===5) return '中央集合';
+  return '';
+}
+function drawHardRoleCircle(add,x,y,role,phase){
+  const answer = hardMapAnswerForRole(phase, role);
+  const status = getHardAnswerVisual(answer, phase);
+  const fill = status==='correct'?'rgba(74,222,128,.38)':status==='wrong'?'rgba(255,107,107,.40)':status==='selected'?'rgba(42,183,255,.50)':'rgba(255,255,255,.08)';
+  const stroke = status==='correct'?'#4ade80':status==='wrong'?'#ff6b6b':status==='selected'?'#42c7ff':'#e7ecff';
+  const width = status==='neutral'?2:4;
+  add('circle',{cx:x,cy:y,r:16,fill,stroke,'stroke-width':width,'data-hard-map-answer':answer});
+  if(status!=='neutral') add('circle',{cx:x,cy:y,r:22,fill:'none',stroke,'stroke-width':3,opacity:.9,'data-hard-map-answer':answer});
+  drawSelectedRing(add,x,y,28,answer,true);
+  if(hardShowAnswer){
+    add('text',{x,y:y+1,fill:'#fff','font-size':12,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=role;
+  }
+}
+function drawHardAggregateCircle(add,x,y,answer,label='',opts={}){
+  const selectable = opts.selectable !== false;
+  const status = selectable ? getHardAnswerVisual(answer, currentBaulMapPhase()) : 'neutral';
+  const fill = status==='correct'?'rgba(74,222,128,.38)':status==='wrong'?'rgba(255,107,107,.40)':status==='selected'?'rgba(42,183,255,.50)':'rgba(255,255,255,.08)';
+  const stroke = status==='correct'?'#4ade80':status==='wrong'?'#ff6b6b':status==='selected'?'#42c7ff':'#e7ecff';
+  add('circle',{
+    cx:x,cy:y,r:opts.r || 18,
+    fill, stroke, 'stroke-width':status==='neutral'?2:4,
+    ...(selectable ? {'data-hard-map-answer':answer} : {})
+  });
+  if(status!=='neutral') add('circle',{
+    cx:x,cy:y,r:(opts.r || 18)+6,fill:'none',
+    stroke,'stroke-width':3,opacity:.9,
+    ...(selectable ? {'data-hard-map-answer':answer} : {})
+  });
+  if(selectable) drawSelectedRing(add,x,y,(opts.r || 18)+12,answer,true);
+  if(label){
+    const dy = opts.labelPos==='above' ? -(opts.labelOffset || 28) : opts.labelPos==='below' ? (opts.labelOffset || 30) : 1;
+    add('text',{x,y:y+dy,fill:'#fff','font-size':opts.fontSize || 12,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=label;
+  }
+}
+
+function circlePath(cx,cy,r){
+  return `M ${cx-r},${cy} a ${r},${r} 0 1,0 ${r*2},0 a ${r},${r} 0 1,0 ${-r*2},0`;
+}
+function drawOrangeAoeCircle(add,x,y,r,label=''){
+  add('circle',{cx:x,cy:y,r,fill:'rgba(255,170,64,.13)',stroke:'rgba(255,190,90,.72)','stroke-width':2.5,opacity:.92,'pointer-events':'none'});
+  if(label) add('text',{x,y:y+1,fill:'#ffd59b','font-size':11,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle','pointer-events':'none'}).textContent=label;
+}
+function drawOrangeAoeDonut(add,x,y,outerR,innerR,label=''){
+  add('path',{d:`${circlePath(x,y,outerR)} ${circlePath(x,y,innerR)}`,fill:'rgba(255,170,64,.12)',stroke:'rgba(255,190,90,.72)','stroke-width':2.5,'fill-rule':'evenodd',opacity:.92,'pointer-events':'none'});
+  add('circle',{cx:x,cy:y,r:innerR,fill:'none',stroke:'rgba(255,215,135,.52)','stroke-width':1.6,opacity:.8,'pointer-events':'none'});
+  if(label) add('text',{x,y:y+1,fill:'#ffd59b','font-size':11,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle','pointer-events':'none'}).textContent=label;
+}
+function drawElementAoe(add,x,y,element,label=''){
+  if(element==='fire') drawOrangeAoeCircle(add,x,y,34,label || '小円');
+  else drawOrangeAoeDonut(add,x,y,46,21,label || 'ドーナツ');
+}
+function drawCrystalAoe(add,x,y,element,label=''){
+  // 炎クリスタルはドーナツ、 水クリスタルは小円として表示。
+  if(element==='fire') drawOrangeAoeDonut(add,x,y,72,34,label || '炎クリ');
+  else drawOrangeAoeCircle(add,x,y,58,label || '水クリ');
+}
+function activeDebuffAoePoints(phase, resolving){
+  if(isPoikos()){
+    const bp=poikosBasePositions(phase);
+    return [bp.windSide, bp.antiWind];
+  }
+  if(isYanDN()){
+    const bp=dnBasePositions(phase);
+    return [bp.inner, bp.outer];
+  }
+  const rp=computeTlbHardRolePositions(phase);
+  return roles.filter(r=>state.players[r].element===resolving && rp[r]).map(r=>rp[r]);
+}
+function drawAnswerAoeHints(add, phase){
+  if(!hardShowAnswer || !(phase===1 || phase===3)) return;
+  const resolving = phase===1 ? state.first : secondElement();
+  const c = crystalPos(state.crystals[resolving]);
+  drawCrystalAoe(add,c[0],c[1],resolving, resolving==='fire'?'炎クリ範囲':'水クリ範囲');
+  activeDebuffAoePoints(phase, resolving).forEach((pt,i)=>{
+    drawElementAoe(add,pt[0],pt[1],resolving, resolving==='fire'?'炎小円':'水ドーナツ');
+  });
+}
+function drawHardPhaseMapChoices(add, phase){
+  if(isPoikos()) return drawHardPhaseMapChoicesPoikos(add, phase);
+  if(isYanDN()) return drawHardPhaseMapChoicesYanDN(add, phase);
+  return drawHardPhaseMapChoicesYanTLB(add, phase);
+}
+function drawHardPhaseMapChoicesYanTLB(add, phase){
+  const rp = computeTlbHardRolePositions(phase);
+  if(phase===0){
+    if(hardShowAnswer){
+      drawHardAggregateCircle(add,210,300,'カオス側','MT/H1/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','ST/H2/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+    } else {
+      drawHardAggregateCircle(add,210,300,'カオス側','',{r:20});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','',{r:20});
+    }
+    return true;
+  }
+  if(phase===1 || phase===3){
+    const d12=[(rp.D1[0]+rp.D2[0])/2,(rp.D1[1]+rp.D2[1])/2];
+    const cluster=['MT','ST','H1','H2'].map(k=>rp[k]);
+    const c=[cluster.reduce((s,v)=>s+v[0],0)/4, cluster.reduce((s,v)=>s+v[1],0)/4];
+    if(phase===1){ const exLead=exdeathLeadCenter(); drawHardAggregateCircle(add,exLead[0],exLead[1],'エクスデス誘導',hardShowAnswer && roleSelect.value==='ST'?'ST':'',{r:22,fontSize:11,labelPos:'below',labelOffset:28}); }
+    if(hardShowAnswer){
+      drawHardAggregateCircle(add,d12[0],d12[1],'風クリ外周','D1/D2',{r:18,fontSize:12,labelPos:'above',labelOffset:28});
+      drawHardAggregateCircle(add,c[0],c[1],'風クリ内周','MT/ST/H1/H2',{r:18,fontSize:11,labelPos:'above',labelOffset:28});
+      drawHardAggregateCircle(add,rp.D4[0],rp.D4[1],'水クリの風クリ側','D4',{r:18,fontSize:12});
+      drawHardAggregateCircle(add,rp.D3[0],rp.D3[1],'水クリの外側','D3',{r:18,fontSize:12});
+    } else {
+      drawHardAggregateCircle(add,d12[0],d12[1],'風クリ外周','',{r:18});
+      drawHardAggregateCircle(add,c[0],c[1],'風クリ内周','',{r:18});
+      drawHardAggregateCircle(add,rp.D4[0],rp.D4[1],'水クリの風クリ側','',{r:18});
+      drawHardAggregateCircle(add,rp.D3[0],rp.D3[1],'水クリの外側','',{r:18});
+    }
+    return true;
+  }
+  if(phase===4){
+    const gather=tlbExdeathStackCenter();
+    if(hardShowAnswer){
+      drawHardAggregateCircle(add,gather[0],gather[1],'エクスデス側','D3以外',{r:20,fontSize:12});
+      drawHardAggregateCircle(add,rp.D3[0],rp.D3[1],'D3誘導','D3誘導',{r:18,fontSize:12,labelPos:'above',labelOffset:28});
+    } else {
+      drawHardAggregateCircle(add,gather[0],gather[1],'エクスデス側','',{r:20});
+      drawHardAggregateCircle(add,rp.D3[0],rp.D3[1],'D3誘導','',{r:18});
+    }
+    return true;
+  }
+  if(phase===5){
+    const gather=tlbExdeathStackCenter();
+    if(hardShowAnswer){
+      drawHardAggregateCircle(add,gather[0],gather[1],'中央集合','全員',{r:20,fontSize:14});
+    } else {
+      drawHardAggregateCircle(add,gather[0],gather[1],'中央集合','',{r:20});
+    }
+    return true;
+  }
+  return false;
+}
+function dnBasePositions(phase){
+  const wind = crystalPos(state.crystals.wind);
+  const empty = crystalPos(state.crystals.empty);
+  const resolving = phase===1 ? state.first : secondElement();
+  const active = crystalPos(state.crystals[resolving]);
+  const longCrystal = crystalPos(state.crystals[oppositeElement(resolving)]);
+
+  // 発動クリスタル：クリスタルを中心に、中心側=内周 / 外周側=外周で挟む
+  const adx=active[0]-center[0], ady=active[1]-center[1];
+  const alen=Math.hypot(adx,ady)||1;
+  const an=[adx/alen,ady/alen];
+  const inner=[active[0]-an[0]*38, active[1]-an[1]*38];
+  const outer=[active[0]+an[0]*38, active[1]+an[1]*38];
+
+  // 反対属性持ちは中心付近の、先に発動するクリスタル寄りで受ける
+  const receiver=[center[0]+an[0]*66, center[1]+an[1]*66];
+
+  // 風クリスタル：THが内周/外周から挟んで誘導、DPSはその近くで1人ずつ受ける
+  const wdx=wind[0]-center[0], wdy=wind[1]-center[1];
+  const wlen=Math.hypot(wdx,wdy)||1;
+  const wn=[wdx/wlen,wdy/wlen], wp=[-wn[1],wn[0]];
+  const windTHInner=[wind[0]-wn[0]*40, wind[1]-wn[1]*40];
+  const windTHOuter=[wind[0]+wn[0]*40, wind[1]+wn[1]*40];
+  // DPSは担当THの近くで受ける。風クリに最も近い人にならないよう、
+  // TH位置から少し横にずらしつつ、フィールド外に落ちて見えないほど外へは出さない。
+  const windDPSInner=[windTHInner[0]+wp[0]*40, windTHInner[1]+wp[1]*40];
+  const windDPSOuter=[windTHOuter[0]+wp[0]*40, windTHOuter[1]+wp[1]*40];
+
+  return {active,longCrystal,inner,outer,receiver,wind,empty,windTHInner,windTHOuter,windDPSInner,windDPSOuter};
+}
+
+function poikosBasePositions(phase){
+  const wind = crystalPos(state.crystals.wind);
+  const resolving = phase===1 ? state.first : secondElement();
+  const active = crystalPos(state.crystals[resolving]);
+  const adx=active[0]-center[0], ady=active[1]-center[1];
+  const alen=Math.hypot(adx,ady)||1;
+  const an=[adx/alen, ady/alen];
+  let ap=[-an[1], an[0]];
+  const toWind=[wind[0]-active[0], wind[1]-active[1]];
+  if(ap[0]*toWind[0] + ap[1]*toWind[1] < 0) ap=[-ap[0], -ap[1]];
+  const windSide=[active[0]+ap[0]*42, active[1]+ap[1]*42];
+  const antiWind=[active[0]-ap[0]*42, active[1]-ap[1]*42];
+  const waitingCenterShift = resolving==='fire' ? 68 : 44;
+  const waiting=[antiWind[0]-an[0]*waitingCenterShift, antiWind[1]-an[1]*waitingCenterShift];
+
+  const wdx=wind[0]-center[0], wdy=wind[1]-center[1];
+  const wlen=Math.hypot(wdx,wdy)||1;
+  const wn=[wdx/wlen,wdy/wlen], wp=[-wn[1],wn[0]];
+  const base=[wind[0]+wn[0]*28, wind[1]+wn[1]*28];
+  const left1=[base[0]-wp[0]*66 - wn[0]*14, base[1]-wp[1]*66 - wn[1]*14];
+  const left2=[base[0]-wp[0]*24 - wn[0]*14, base[1]-wp[1]*24 - wn[1]*14];
+  const right1=[base[0]+wp[0]*24 - wn[0]*14, base[1]+wp[1]*24 - wn[1]*14];
+  const right2=[base[0]+wp[0]*66 - wn[0]*14, base[1]+wp[1]*66 - wn[1]*14];
+  return {wind,active,windSide,antiWind,waiting,left1,left2,right1,right2};
+}
+function drawHardPhaseMapChoicesPoikos(add, phase){
+  if(phase===0){
+    return drawHardPhaseMapChoicesYanTLB(add, phase);
+  }
+  if(phase===1 || phase===3){
+    const bp=poikosBasePositions(phase);
+    const label=(ans,fallback)=>hardShowAnswer?poikosAnswerLabel(phase,ans,fallback):'';
+    if(phase===1){
+      const tb=crystalPos(state.crystals[oppositeElement(state.first)]);
+      drawHardAggregateCircle(add,tb[0],tb[1],'T強攻撃誘導',hardShowAnswer?'ST / T強':'',{r:21,fontSize:10,labelPos:'below',labelOffset:30});
+    }
+    drawHardAggregateCircle(add,bp.windSide[0],bp.windSide[1],'発動クリ風側',label('発動クリ風側','風側'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.antiWind[0],bp.antiWind[1],'発動クリ反風側',label('発動クリ反風側','反風'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.waiting[0],bp.waiting[1],'待機位置',label('待機位置','待機'),{r:22,fontSize:10});
+    drawHardAggregateCircle(add,bp.left1[0],bp.left1[1],'風左1',label('風左1','左1'),{r:19,fontSize:10});
+    drawHardAggregateCircle(add,bp.left2[0],bp.left2[1],'風左2',label('風左2','左2'),{r:19,fontSize:10});
+    drawHardAggregateCircle(add,bp.right1[0],bp.right1[1],'風右1',label('風右1','右1'),{r:19,fontSize:10});
+    drawHardAggregateCircle(add,bp.right2[0],bp.right2[1],'風右2',label('風右2','右2'),{r:19,fontSize:10});
+    return true;
+  }
+  if(phase===4){
+    const empty=crystalPos(state.crystals.empty);
+    const gather=tlbExdeathStackCenter();
+    drawHardAggregateCircle(add,empty[0],empty[1],'D3誘導',hardShowAnswer?'D3誘導':'',{r:20,fontSize:12,labelPos:'above',labelOffset:28});
+    drawHardAggregateCircle(add,gather[0],gather[1],'全員集合',hardShowAnswer?'全員':'',{r:20,fontSize:12});
+    return true;
+  }
+  if(phase===5){
+    const chaos=crystalPos(state.crystals.wind);
+    const dx=chaos[0]-center[0], dy=chaos[1]-center[1];
+    const l=Math.hypot(dx,dy)||1;
+    const n=[dx/l,dy/l], p=[-n[1],n[0]];
+    const topCenter=[chaos[0]-n[0]*68, chaos[1]-n[1]*68];
+    const bottomCenter=[topCenter[0]-n[0]*36, topCenter[1]-n[1]*36];
+    const outerOffsets=[-84,-28,28,84];
+    const innerOffsets=[-84,-28,28,84];
+    const outerRoles=poikosOrderedRoles(true), innerRoles=poikosOrderedRoles(false);
+    const slots=['外列1','外列2','外列3','外列4','内列1','内列2','内列3','内列4'];
+    slots.slice(0,4).forEach((ans,i)=>{ const x=topCenter[0]+p[0]*outerOffsets[i], y=topCenter[1]+p[1]*outerOffsets[i]; drawHardAggregateCircle(add,x,y,ans,hardShowAnswer?(outerRoles[i]||ans):'',{r:18,fontSize:10}); });
+    slots.slice(4).forEach((ans,i)=>{ const x=bottomCenter[0]+p[0]*innerOffsets[i], y=bottomCenter[1]+p[1]*innerOffsets[i]; drawHardAggregateCircle(add,x,y,ans,hardShowAnswer?(innerRoles[i]||ans):'',{r:18,fontSize:10}); });
+    return true;
+  }
+  return drawHardPhaseMapChoicesYanDN(add, phase);
+}
+function drawHardPhaseMapChoicesYanDN(add, phase){
+  if(phase===0){
+    if(hardShowAnswer){
+      drawHardAggregateCircle(add,210,300,'カオス側','MT/H1/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','ST/H2/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+    } else {
+      drawHardAggregateCircle(add,210,300,'カオス側','',{r:20});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','',{r:20});
+    }
+    return true;
+  }
+  if(phase===1 || phase===3){
+    const bp=dnBasePositions(phase);
+    const label=(ans,fallback)=>hardShowAnswer?dnAnswerLabel(phase,ans,fallback):'';
+    if(phase===1){
+      drawHardAggregateCircle(add,bp.longCrystal[0],bp.longCrystal[1],'T強攻撃誘導',hardShowAnswer?'ST / T強':'',{r:21,fontSize:10,labelPos:'below',labelOffset:30});
+    }
+    drawHardAggregateCircle(add,bp.inner[0],bp.inner[1],'発動クリ内側',label('発動クリ内側','内側'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.outer[0],bp.outer[1],'発動クリ外側',label('発動クリ外側','外側'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.receiver[0],bp.receiver[1],'反対属性受け',label('反対属性受け','反対属性'),{r:22,fontSize:10});
+    drawHardAggregateCircle(add,bp.windTHInner[0],bp.windTHInner[1],'風クリ内側誘導',label('風クリ内側誘導','TH内'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.windTHOuter[0],bp.windTHOuter[1],'風クリ外側誘導',label('風クリ外側誘導','TH外'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.windDPSInner[0],bp.windDPSInner[1],'風クリ内側受け',label('風クリ内側受け','DPS内'),{r:20,fontSize:10});
+    drawHardAggregateCircle(add,bp.windDPSOuter[0],bp.windDPSOuter[1],'風クリ外側受け',label('風クリ外側受け','DPS外'),{r:20,fontSize:10});
+    return true;
+  }
+  if(phase===4){
+    const empty=crystalPos(state.crystals.empty);
+    const gather=tlbExdeathStackCenter();
+    drawHardAggregateCircle(add,empty[0],empty[1],'D3誘導',hardShowAnswer?'D3誘導':'',{r:20,fontSize:12,labelPos:'above',labelOffset:28});
+    drawHardAggregateCircle(add,gather[0],gather[1],'全員集合',hardShowAnswer?'全員':'',{r:20,fontSize:12});
+    return true;
+  }
+  if(phase===5){
+    const ex = crystalPos(state.crystals.wind);
+    // エクスデスの正面（外周向き）を基準に、
+    // 左側がTH / 右側がDPS。各側で「外周側 → 円の中心側」に2人並ぶ。
+    // 見やすさのため、外側2人と内側2人のペア間隔も少し広げる。
+    const fx = ex[0]-center[0], fy = ex[1]-center[1];
+    const fl = Math.hypot(fx, fy) || 1;
+    const f = [fx/fl, fy/fl];            // 正面 = 外周向き
+    const left = [f[1], -f[0]];         // 正面から見て左
+    const right = [-left[0], -left[1]]; // 正面から見て右
+    const shift = 16;                    // 全体を少し中心寄りへ
+    const ax = ex[0] - f[0]*shift, ay = ex[1] - f[1]*shift;
+
+    const sideIn = 44, sideOut = 74;
+    const frontInOuter = 20, frontInInner = 48;   // 内側4人：ペア間隔を広めに
+    const frontOutOuter = 22, frontOutInner = 72; // 外側4人：さらに外側だが見やすく離す
+    // 外側のうち、左右上側（外周側）の2人だけ少し内側へ寄せる
+    const upperNudge = 16;
+
+    const pos = {
+      '内側TH外周側':[ax + left[0]*sideIn + f[0]*frontInOuter, ay + left[1]*sideIn + f[1]*frontInOuter],
+      '内側TH内側':[ax + left[0]*sideIn - f[0]*frontInInner, ay + left[1]*sideIn - f[1]*frontInInner],
+      '内側DPS外周側':[ax + right[0]*sideIn + f[0]*frontInOuter, ay + right[1]*sideIn + f[1]*frontInOuter],
+      '内側DPS内側':[ax + right[0]*sideIn - f[0]*frontInInner, ay + right[1]*sideIn - f[1]*frontInInner],
+
+      '外側TH外周側':[ax + left[0]*sideOut + f[0]*(frontOutOuter - upperNudge), ay + left[1]*sideOut + f[1]*(frontOutOuter - upperNudge)],
+      '外側TH内側':[ax + left[0]*sideOut - f[0]*frontOutInner, ay + left[1]*sideOut - f[1]*frontOutInner],
+      '外側DPS外周側':[ax + right[0]*sideOut + f[0]*(frontOutOuter - upperNudge), ay + right[1]*sideOut + f[1]*(frontOutOuter - upperNudge)],
+      '外側DPS内側':[ax + right[0]*sideOut - f[0]*frontOutInner, ay + right[1]*sideOut - f[1]*frontOutInner],
+    };
+    const labelText = {
+      '内側TH外周側':'内TH外','内側TH内側':'内TH内',
+      '内側DPS外周側':'内D外','内側DPS内側':'内D内',
+      '外側TH外周側':'外TH外','外側TH内側':'外TH内',
+      '外側DPS外周側':'外D外','外側DPS内側':'外D内'
+    };
+    const buckets = dnFinalRoleBuckets();
+    const roleMap = {
+      '内側TH外周側': buckets.windOnlyTH[0]||'',
+      '内側TH内側': buckets.windOnlyTH[1]||'',
+      '内側DPS外周側': buckets.windOnlyDPS[0]||'',
+      '内側DPS内側': buckets.windOnlyDPS[1]||'',
+      '外側TH外周側': buckets.debuffTH[0]||'',
+      '外側TH内側': buckets.debuffTH[1]||'',
+      '外側DPS外周側': buckets.debuffDPS[0]||'',
+      '外側DPS内側': buckets.debuffDPS[1]||''
+    };
+    for(const key of hardChoiceOptions(5)){
+      drawHardAggregateCircle(
+        add, pos[key][0], pos[key][1], key,
+        hardShowAnswer ? (roleMap[key] || labelText[key]) : '',
+        {r:19, fontSize:10, labelPos: hardShowAnswer ? 'inside' : 'above', labelOffset:26}
+      );
+    }
+    return true;
+  }
+  return false;
+}
+function drawNormalRoleCircle(add,x,y,role){
+  const isMe = role===roleSelect.value;
+  add('circle',{cx:x,cy:y,r:isMe?17:16,fill:isMe?'#496dff':'rgba(255,255,255,.12)',stroke:isMe?'#ffffff':'#e7ecff','stroke-width':isMe?3:2});
+  add('text',{x,y:y+1,fill:'#fff','font-size':12,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=role;
+}
+function implosionGeometry(){
+  // TLB式：風クリ上のカオス中心からX字分割。
+  // DN式3枚目：中央のカオス中心から、風クリ＋未発動属性クリの中間方向を前としてX字分割。
+  const dnCenterImplosion = isDnLike() && currentBaulMapPhase()===2;
+  const c = dnCenterImplosion ? [center[0], center[1]] : crystalPos(state.crystals.wind);
+  const target = dnCenterImplosion ? dnRemainingMidpoint() : center;
+  const f0 = [target[0]-c[0], target[1]-c[1]];
+  const fl = Math.hypot(f0[0],f0[1]) || 1;
+  const f = [f0[0]/fl, f0[1]/fl];
+  const r = [-f[1], f[0]];
+  const R = 360;
+  const p = (a,b)=>[c[0]+(f[0]*a+r[0]*b)*R, c[1]+(f[1]*a+r[1]*b)*R];
+  const regions = {
+    // 90度の二等辺三角形を保ったまま、元の形を等倍拡大
+    '前側': [c, p(2,2), p(2,-2)],
+    '後側': [c, p(-2,-2), p(-2,2)],
+    '右側': [c, p(2,2), p(-2,2)],
+    '左側': [c, p(-2,-2), p(2,-2)]
+  };
+  const label = {
+    '前側': [c[0]+f[0]*88, c[1]+f[1]*88],
+    '後側': [c[0]-f[0]*88, c[1]-f[1]*88],
+    '右側': [c[0]+r[0]*88, c[1]+r[1]*88],
+    '左側': [c[0]-r[0]*88, c[1]-r[1]*88]
+  };
+  return {c,f,r,R,regions,label};
+}
+function drawImplosionAreaSelector(add, hard){
+  const g=implosionGeometry();
+  const seq=implosionSafeSeq();
+  const regionNames=['前側','右側','後側','左側'];
+  regionNames.forEach(name=>{
+    const group=implosionRegionGroup(name);
+    const selectedOrder = hardImplosionClicks.findIndex(h=>h.clicked===name);
+    const selected = selectedOrder>=0;
+    let fill='rgba(255,255,255,.025)', stroke='none', sw=0;
+    if(hardJudged){
+      const answerRegion = group===seq[0] || group===seq[1];
+      if(hardJudgeCorrect){
+        if(answerRegion){ fill='rgba(74,222,128,.20)'; stroke='#4ade80'; sw=2; }
+      } else {
+        if(answerRegion || selected){ fill='rgba(255,107,107,.28)'; stroke='#ff6b6b'; sw=2; }
+      }
+    } else if(selected){
+      fill='rgba(66,199,255,.24)';
+    }
+    add('polygon',{points:g.regions[name].map(pt=>pt.join(',')).join(' '), fill, stroke, 'stroke-width':sw, 'data-hard-map-answer':name});
+  });
+  const c=g.c, f=g.f, r=g.r, R=g.R;
+  const lineEnd=(a,b)=>[c[0]+(f[0]*a+r[0]*b)*R, c[1]+(f[1]*a+r[1]*b)*R];
+  const a1=lineEnd(2,2), a2=lineEnd(-2,-2), b1=lineEnd(2,-2), b2=lineEnd(-2,2);
+  add('line',{x1:a1[0],y1:a1[1],x2:a2[0],y2:a2[1],stroke:'#e7ecff','stroke-width':2,opacity:.55});
+  add('line',{x1:b1[0],y1:b1[1],x2:b2[0],y2:b2[1],stroke:'#e7ecff','stroke-width':2,opacity:.55});
+  regionNames.forEach(name=>{
+    const [x,y]=g.label[name];
+    if(hardShowAnswer || (!hard && !hardJudged)){
+      const group=implosionRegionGroup(name);
+      let mark='';
+      if(group===seq[0]) mark='①';
+      else if(group===seq[1]) mark='②';
+      if(mark){
+        add('circle',{cx:x,cy:y,r:18,fill:'rgba(7,10,20,.88)',stroke:'#ffffff','stroke-width':2});
+        add('text',{x,y:y+1,fill:'#ffffff','font-size':16,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=mark;
+      }
+    } else {
+      const nums=[];
+      hardImplosionClicks.forEach((h,i)=>{ if(h.clicked===name) nums.push(String(i+1)); });
+      if(nums.length){
+        add('circle',{cx:x,cy:y,r:18,fill:'rgba(7,10,20,.88)',stroke:'#ffffff','stroke-width':2});
+        add('text',{x,y:y+1,fill:'#ffffff','font-size':16,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=nums.join('/');
+      }
+    }
+  });
+}
+function drawHardSafeHotspot(add,x,y,label,answer){
+  const selected = hardSelectedChoice===answer || hardImplosionClicks.some(h=>h.clicked===answer);
+  const expected = currentPracticeExpectedChoice(2);
+  const correct = hardShowAnswer && expected && implosionRegionGroup(answer)===expected;
+  add('circle',{cx:x,cy:y,r:26,fill:selected?'rgba(42,183,255,.50)':'rgba(255,255,255,.07)',stroke:correct?'#4ade80':selected?'#42c7ff':'#e7ecff','stroke-width':correct?3:selected?4:2,'data-hard-map-answer':answer});
+  if(selected || correct) add('circle',{cx:x,cy:y,r:33,fill:'none',stroke:correct?'#4ade80':'#42c7ff','stroke-width':3,opacity:.9,'data-hard-map-answer':answer});
+  if(hardShowAnswer || modeSelect.value!=='hard'){
+    add('text',{x,y:y+1,fill:'#fff','font-size':13,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=label;
+  }
+}
+function drawTlbBosses(add){
+  const phase = currentBaulMapPhase();
+  if(phase===0){
+    const chaos=[210,300], ex=[390,300];
+    add('circle',{cx:chaos[0],cy:chaos[1],r:86,fill:'rgba(255,70,70,.10)',stroke:'#ff5555','stroke-width':5,opacity:.95});
+    add('text',{x:chaos[0],y:chaos[1]-94,fill:'#ff9a9a','font-size':18,'font-weight':900,'text-anchor':'middle'}).textContent='カオス';
+    add('circle',{cx:ex[0],cy:ex[1],r:62,fill:'rgba(160,80,255,.12)',stroke:'#b56cff','stroke-width':4,opacity:.95});
+    add('text',{x:ex[0],y:ex[1]-70,fill:'#d9bcff','font-size':18,'font-weight':900,'text-anchor':'middle'}).textContent='エクスデス';
+    return;
+  }
+  const wind=state.crystals.wind;
+  let chaos, ex;
+  if(isPoikos() && phase===1){
+    chaos = [center[0], center[1]];
+    ex = crystalPos(state.crystals[oppositeElement(state.first)]);
+  } else if(isPoikos() && phase===2){
+    chaos = [center[0], center[1]];
+    ex = [center[0], center[1]];
+  } else if(isPoikos() && phase===3){
+    chaos = [center[0], center[1]];
+    ex = [center[0], center[1]];
+  } else if(isPoikos() && phase===4){
+    chaos = [center[0], center[1]];
+    ex = crystalPos(wind);
+  } else if(isPoikos() && phase===5){
+    chaos = crystalPos(wind);
+    ex = [chaos[0], chaos[1]];
+  } else if(isYanDN() && phase===1){
+    chaos = [center[0], center[1]];
+    ex = crystalPos(state.crystals[oppositeElement(state.first)]);
+  } else if(isYanDN() && (phase===2 || phase===3)){
+    chaos = [center[0], center[1]];
+    ex = [center[0], center[1]];
+  } else if(isYanDN() && (phase===4 || phase===5)){
+    chaos = crystalPos(wind);
+    ex = [chaos[0], chaos[1]];
+  } else if(phase===2){
+    chaos = crystalPos(wind);
+    ex = [chaos[0], chaos[1]];
+  } else if(phase===3){
+    chaos = crystalPos(wind);
+    ex = [chaos[0], chaos[1]];
+  } else if(phase===4 || phase===5){
+    ex = crystalPos(wind);
+    chaos = polarPoint(state.crystals.empty,170);
+  } else {
+    chaos = crystalPos(wind);
+    ex = polarPoint(state.crystals.empty,170);
+  }
+  add('circle',{cx:chaos[0],cy:chaos[1],r:86,fill:'rgba(255,70,70,.10)',stroke:'#ff5555','stroke-width':5,opacity:.95});
+  add('text',{x:chaos[0],y:chaos[1]-94,fill:'#ff9a9a','font-size':14,'font-weight':900,'text-anchor':'middle'}).textContent='カオス';
+  if(isDnLike() && phase===2) drawFacingLineTo(add, chaos, dnRemainingMidpoint(), 56, '#ff8585');
+  else if(isDnLike() && (phase===4 || phase===5)) drawFacingOutward(add, chaos, 56, '#ff8585');
+  else drawFacingLine(add, chaos, 56, '#ff8585');
+  add('circle',{cx:ex[0],cy:ex[1],r:62,fill:'rgba(160,80,255,.12)',stroke:'#b56cff','stroke-width':4,opacity:.95});
+  if(phase===2){
+    add('text',{x:ex[0],y:ex[1]+84,fill:'#d9bcff','font-size':14,'font-weight':900,'text-anchor':'middle'}).textContent='エクスデス';
+    if(isDnLike()) drawFacingLineTo(add, ex, dnRemainingMidpoint(), 42, '#d3b0ff');
+    else drawFacingLine(add, ex, 42, '#d3b0ff');
+    if(isPracticeView()){
+      if(shouldShowPracticeImplosionCast()){
+        add('rect',{x:132,y:70,width:336,height:36,rx:12,fill:'rgba(20,34,62,.90)',stroke:'#6bdcff','stroke-width':2.5,filter:'url(#blueGlow)'});
+        add('text',{x:300,y:93,fill:'#e8fbff','font-size':17,'font-weight':900,'text-anchor':'middle'}).textContent=`ボスの詠唱：${state.implosion}・インプロージョン`;
+      }
+    } else if(isDnLike()){
+      add('rect',{x:72,y:62,width:456,height:52,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:82,fill:'#ffffff','font-size':15,'font-weight':900,'text-anchor':'middle'}).textContent=`ボスの詠唱：${state.implosion}・インプロージョン`;
+      add('text',{x:300,y:101,fill:'#cfe0ff','font-size':12,'font-weight':700,'text-anchor':'middle'}).textContent=`DN 3枚目：中央重ね / 向き=${elementJa(secondElement())}クリ＋風クリの中間`;
+    } else {
+      add('rect',{x:126,y:72,width:348,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':15,'font-weight':900,'text-anchor':'middle'}).textContent=`ボスの詠唱：${state.implosion}・インプロージョン`;
+    }
+  } else {
+
+    add('text',{x:ex[0],y:ex[1]+78,fill:'#d9bcff','font-size':14,'font-weight':900,'text-anchor':'middle'}).textContent='エクスデス';
+    if(isDnLike() && (phase===4 || phase===5)) drawFacingOutward(add, ex, 42, '#d3b0ff');
+    else drawFacingLine(add, ex, 42, '#d3b0ff');
+    if(!isPracticeView() && isPoikos() && phase===1){
+      add('rect',{x:70,y:72,width:460,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':13,'font-weight':900,'text-anchor':'middle'}).textContent=`Poikos 2枚目：先デバフは発動クリを90度ずれ処理 / STはエクスデスを${elementCrystalLabel(oppositeElement(state.first))}へ`;
+      add('text',{x:ex[0],y:ex[1]+6,fill:'#e8d7ff','font-size':10,'font-weight':900,'text-anchor':'middle'}).textContent='タン強';
+      add('text',{x:ex[0],y:ex[1]+18,fill:'#e8d7ff','font-size':10,'font-weight':900,'text-anchor':'middle'}).textContent='(近い人に2回)';
+    }
+    if(!isPracticeView() && isPoikos() && phase===3){
+      add('rect',{x:74,y:72,width:452,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':13,'font-weight':900,'text-anchor':'middle'}).textContent=`Poikos 4枚目：後デバフが後クリスタルを90度ずれ処理 / 風クリ4人は2枚目と同じ`;
+    }
+    if(!isPracticeView() && isPoikos() && phase===4){
+      add('rect',{x:126,y:72,width:348,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':14,'font-weight':900,'text-anchor':'middle'}).textContent='Poikos 5枚目：カオスはフィールド中央';
+    }
+    if(!isPracticeView() && isPoikos() && phase===5){
+      add('rect',{x:96,y:72,width:408,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':13,'font-weight':900,'text-anchor':'middle'}).textContent='Poikos 6枚目：外列=風のみ / 内列=残り4人';
+    }
+    if(!isPracticeView() && isYanDN() && phase===1){
+      add('rect',{x:116,y:72,width:368,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':14,'font-weight':900,'text-anchor':'middle'}).textContent=`DN 2枚目：カオス中央 / STはエクスデスを${elementCrystalLabel(oppositeElement(state.first))}へ`;
+    }
+    if(!isPracticeView() && isYanDN() && phase===3){
+      add('rect',{x:72,y:72,width:456,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':13,'font-weight':900,'text-anchor':'middle'}).textContent=`DN 4枚目：ボス2体は中央重ね / 後発属性は後発クリ内外、先発属性は中央付近`;
+    }
+    if(!isPracticeView() && isYanDN() && phase===4){
+      add('rect',{x:96,y:72,width:408,height:34,rx:10,fill:'rgba(7,10,20,.82)',stroke:'#8aa4ff','stroke-width':1.5});
+      add('text',{x:300,y:94,fill:'#ffffff','font-size':13,'font-weight':900,'text-anchor':'middle'}).textContent=`DN 5枚目：ボス2体は風クリ上に重なり外周向き / 全員集合`;
+    }
+  }
+}
+function drawTlbRoleGuides(add, hard){
+  const phase = currentBaulMapPhase();
+  if(phase===0 || phase===1 || phase===2 || phase===3 || phase===4 || phase===5){
+    return;
+  }
+}
+function elementLabel(e){return e==='fire'?'炎':e==='water'?'水':'風のみ'}
+function dirForHardStep(step){
+  const me=roleSelect.value;
+  return tlbRoleBaseDir(me, step);
+}
+function implosionSafeSeq(){
+  // ヴァーティカル：1回目はカオス左右、2回目は前後。ホリゾンタルは逆。
+  const first = state.implosion==='ヴァーティカル' ? '左右安置' : '前後安置';
+  const second = first==='左右安置' ? '前後安置' : '左右安置';
+  return [first, second];
+}
+function implosionRegionGroup(region){
+  return (region==='左側' || region==='右側') ? '左右安置' : '前後安置';
+}
+function implosionRegionShort(region){
+  return {前側:'前',後側:'後',左側:'左',右側:'右'}[region] || region;
+}
+function hardChoiceOptions(step=hardStep){
+  if(isPoikos()){
+    if(step===0) return ['カオス側','エクスデス側'];
+    if(step===1) return ['T強攻撃誘導','発動クリ風側','発動クリ反風側','待機位置','風左1','風左2','風右1','風右2'];
+    if(step===3) return ['発動クリ風側','発動クリ反風側','待機位置','風左1','風左2','風右1','風右2'];
+    if(step===2) return [];
+    if(step===4) return ['D3誘導','全員集合'];
+    if(step===5) return ['外列1','外列2','外列3','外列4','内列1','内列2','内列3','内列4'];
+    return [];
+  }
+  if(isYanDN()){
+    if(step===0) return ['カオス側','エクスデス側'];
+    if(step===1) return ['T強攻撃誘導','発動クリ内側','発動クリ外側','反対属性受け','風クリ内側誘導','風クリ外側誘導','風クリ内側受け','風クリ外側受け'];
+    if(step===3) return ['発動クリ内側','発動クリ外側','反対属性受け','風クリ内側誘導','風クリ外側誘導','風クリ内側受け','風クリ外側受け'];
+    if(step===2) return [];
+    if(step===4) return ['D3誘導','全員集合'];
+    if(step===5) return ['内側TH外周側','内側TH内側','内側DPS外周側','内側DPS内側','外側TH外周側','外側TH内側','外側DPS外周側','外側DPS内側'];
+    return [];
+  }
+  if(step===0) return ['カオス側','エクスデス側'];
+  if(step===1 || step===3) return ['風クリ外周','風クリ内周','水クリの風クリ側','水クリの外側'];
+  if(step===2) return [];
+  if(step===4) return ['D3誘導','エクスデス側'];
+  if(step===5) return ['中央集合'];
+  return ['風クリ側中央寄り','水クリ側外周','風クリ側外周','風クリ対角'];
+}
+function hardExpectedChoice(step){
+  if(step===6) return blasterExpectedChoice();
+  const me=roleSelect.value;
+  if(isPoikos()){
+    if(step===0) return lpSide(me);
+    if(step===1) return poikosResolveAnswer(me, state.first);
+    if(step===2) return implosionSafeSeq()[hardImplosionClicks.length] || implosionSafeSeq()[0];
+    if(step===3) return poikosResolveAnswer(me, secondElement());
+    if(step===4) return dnVacuumPrepAnswer(me);
+    if(step===5) return poikosFinalAnswer(me);
+  }
+  if(isYanDN()){
+    if(step===0) return lpSide(me);
+    if(step===1) return dnResolveAnswer(me, state.first);
+    if(step===2) return implosionSafeSeq()[hardImplosionClicks.length] || implosionSafeSeq()[0];
+    if(step===3) return dnResolveAnswer(me, secondElement());
+    if(step===4) return dnVacuumPrepAnswer(me);
+    if(step===5) return dnFinalAnswer(me);
+  }
+  if(step===0) return lpSide(me);
+  if(step===1 || step===3){
+    if(['D1','D2'].includes(me)) return '風クリ外周';
+    if(['MT','ST','H1','H2'].includes(me)) return '風クリ内周';
+    if(me==='D4') return '水クリの風クリ側';
+    if(me==='D3') return '水クリの外側';
+  }
+  if(step===2) return implosionSafeSeq()[hardImplosionClicks.length] || implosionSafeSeq()[0];
+  if(step===4) return me==='D3' ? 'D3誘導' : 'エクスデス側';
+  if(step===5) return '中央集合';
+  const g=tlbRoleGroup(me);
+  if(g==='tank') return '風クリ側中央寄り';
+  if(g==='healer') return '水クリ側外周';
+  return '風クリ側外周';
+}
+function hardStepTitle(step){
+  const me=roleSelect.value;
+  const titles=phaseNames();
+  if(step===6) return `${titles[step]||'アルテマブラスター散開'}：${blasterState.myNumber}番の立ち位置を選択`;
+  return `${titles[step]||'完了'}：${me}の位置を選択（${strategyLabel()}）`;
+}
+function hardExpectedText(step){
+  if(step===6){ return `アルテマブラスター：${blasterState.myNumber}番の正解=${blasterExpectedChoice()}`; }
+  if(step===2){
+    const seq=implosionSafeSeq();
+    return isPoikos()
+      ? `Poikos 3枚目：詠唱確認 / 正解：1回目=${seq[0]} → 2回目=${seq[1]}`
+      : (isYanDN()
+        ? `DN 3枚目：中央重ね・向きは風クリ＋${elementJa(secondElement())}クリの中間 / 正解：1回目=${seq[0]} → 2回目=${seq[1]}`
+        : `詠唱：${state.implosion}・インプロージョン / 正解：1回目=${seq[0]} → 2回目=${seq[1]}`);
+  }
+  if(step===3){
+    if(isPoikos()) return `Poikos 4枚目：後デバフが後クリスタル、先デバフは待機。選択肢=${hardExpectedChoice(step)}`;
+    return isYanDN() ? `2回目も1回目と同じ構造。選択肢=${hardExpectedChoice(step)}` : `4枚目は2枚目と同じ処理。正解目安：${tlbPositionLabel(roleSelect.value, 1)} / 選択肢=${hardExpectedChoice(step)}`;
+  }
+  if(isDnLike()) return `正解：${hardExpectedChoice(step)}`;
+  return `正解目安：${tlbPositionLabel(roleSelect.value, step)} / 選択肢=${hardExpectedChoice(step)}`;
+}
+function submitHardSelected(){
+  if(hardStep===2){
+    judgeImplosionSelection();
+    return;
+  }
+  if(!hardSelectedChoice){ result.textContent='Hardは下の丸いボタン、またはマップ上の○から選択してから判定してください。'; return; }
+  selectHardChoice(hardSelectedChoice);
+}
+function judgeImplosionSelection(){
+  if(hardStep!==2) return;
+  const seq=implosionSafeSeq();
+  if(hardImplosionClicks.length<2){
+    result.textContent='1回目と2回目の安置エリアを両方選んでから判定してください。';
+    return;
+  }
+  const allOk=hardImplosionClicks.length===2 && hardImplosionClicks.every(x=>x.ok);
+  hardClicks[hardStep] = {
+    clicked:`1回目=${implosionRegionShort(hardImplosionClicks[0].clicked)}側 → 2回目=${implosionRegionShort(hardImplosionClicks[1].clicked)}側`,
+    expected:`1回目=${seq[0]} → 2回目=${seq[1]}`,
+    ok:allOk
+  };
+  hardJudged=true;
+  hardJudgeCorrect=allOk;
+  result.innerHTML = `${allOk?'<span class="ok">OK</span>':'<span class="ng">NG</span>'}：インプロージョン安置 / 正解 1回目=${seq[0]} → 2回目=${seq[1]}${allOk?'':'<br>赤=誤答、緑=正解'}`;
+  renderAll();
+  if(isPracticeView()) pausePractice();
+  maybeAutoAdvanceHard();
+}
+
+function selectHardChoice(choice){
+  if(hardStep===6){
+    const expected=hardExpectedChoice(hardStep);
+    const ok=choice===expected;
+    hardSelectedChoice=choice;
+    hardClicks[hardStep] = {clicked:choice, expected, ok};
+    hardJudged=true;
+    hardJudgeCorrect=ok;
+    result.innerHTML = `${ok?'<span class="ok">OK</span>':'<span class="ng">NG</span>'}：選択=${choice} / 正解=${expected}${ok?'':'<br>赤=誤答、緑=正解'}`;
+    renderAll();
+    if(isPracticeView()) pausePractice();
+    return;
+  }
+  if(hardStep>6) return;
+  if(hardStep===2){
+    selectImplosionArea(choice);
+    return;
+  }
+  const expected=hardExpectedChoice(hardStep);
+  const ok=choice===expected;
+  hardClicks[hardStep] = {clicked:choice, expected, ok};
+  hardJudged=true;
+  hardJudgeCorrect=ok;
+  result.innerHTML = `${ok?'<span class="ok">OK</span>':'<span class="ng">NG</span>'}：選択=${choice} / 正解=${expected}${ok?'':'<br>赤=誤答、緑=正解'}`;
+  renderAll();
+  if(isPracticeView()) pausePractice();
+  maybeAutoAdvanceHard();
+}
+function hardStepHelp(){
+  if(isDnLike()){
+    if(isPoikos() && hardStep===1) return 'Poikos 2枚目：先デバフ2人は発動クリを90度ずれで処理。DPSが風クリ側、THが反対側。遅デバフ2人はTH側近くで待機し、風のみ4人は風クリ外周側で2:2に分かれます。';
+    if(hardStep===1) return 'DN 2枚目：カオスは中央。STはエクスデスを長い属性側のクリスタルへ誘導。短い属性持ちは発動クリを内外で挟み、反対属性は中央付近の発動クリ寄り、風のみは風クリTH誘導＋DPS受けです。';
+    if(isPoikos() && hardStep===3) return 'Poikos 4枚目：後デバフ2人が後クリスタルを90度ずれで処理し、先デバフ2人はTH側近くで待機。風クリ4人は2枚目と同じです。';
+    if(hardStep===3) return 'DN 4枚目：後から発動する属性持ち2人が、後発クリスタルを内周/外周で挟みます。優先順位は MT > ST > H1 > H2 > D1 > D2 > D3 > D4。先に発動していた属性持ち2人は中央付近の後発クリ寄り、炎水デバフなし4人は2枚目と同じ風クリ処理です。';
+    if(isPoikos() && hardStep===4) return 'Poikos 5枚目：D3誘導と全員集合の2択です。';
+    if(isPoikos() && hardStep===5) return 'Poikos 6枚目：カオスのタゲサ上に風のみ4人、その少し中心側に残り4人を、左からヒラ→タンク→近接→遠隔の順で並べます。';
+    if(hardStep===4) return 'DN 5枚目：D3誘導と全員集合の2択です。';
+    if(hardStep===5) return 'DN 6枚目：ボス2体は外周向き。エクスデス正面基準で左がTH、右がDPS。内側4人は炎水なし、外側4人は炎水ありで、どちらも外周側から中心側へ優先順に並びます。';
+    if(hardStep===2) return `DN 3枚目：カオス/エクスデスは中央重ね。カオスは風クリ＋未発動属性クリの中間方向へ向けます。カオス中心からX字に4分割されたエリアをクリックしてください。${hardImplosionClicks.length===0?'1回目安置':'2回目安置'}を選択中です。`;
+    return 'マップ上の○を選んで「判定」を押します。';
+  }
+  if(hardStep===2) return `カオス中心からX字に4分割されたエリアをクリックしてください。${hardImplosionClicks.length===0?'1回目安置':'2回目安置'}を選択中です。`;
+  if(hardStep===3) return '4枚目は2枚目と全く同じです。炎/水のどちらが来ても処理と散開位置は同じなので、2枚目と同じ位置を選んでください。';
+  if(hardStep===4) return 'D3は風クリ対角で距離減衰を誘導し、他の全員はエクスデス側へ集合します。ここでアルテマブラスターの突進も始まります。';
+  if(hardStep===5) return 'ボス位置は5枚目のままです。ノックバック後、全員で中央集合を選んでください。';
+  if(hardStep===6) return 'アルテマブラスターのサイコロ番号と突進方向から、8方向の中間にある正解位置を選んでください。';
+  return 'マップ上の○を選んで「判定」を押します。';
+}
+
+function renderHardPractice(){
+  const hard=isMapLikeView();
+  if(typeof quizNextBtn!=='undefined') quizNextBtn.classList.toggle('hidden', hard);
+  hardPractice.classList.toggle('hidden', !hard);
+  if(!hard){ hardPractice.innerHTML=''; updateSlideTopNav(); return; }
+  const steps=tlbPhaseNames();
+  let logs=hardClicks.map((c,i)=>c?`${i+1}. ${steps[i]}：${c.ok?'✅':'❌'} ${c.clicked} / ${c.expected}`:null).filter(Boolean).join('<br>') || 'まだ回答していません。';
+  if(hardStep===2 && hardImplosionClicks.length){ logs += '<br>' + hardImplosionClicks.map((h,i)=>`3. ${steps[2]}：${h.ok?'✅':'❌'} ${i+1}回目=${implosionRegionShort(h.clicked)}側 / ${h.expected}`).join('<br>'); }
+  const header = `<div class="hintBox"><b>${hardStep<6?hardStepTitle(hardStep):'完了'}</b><br>${hardStep<6?hardStepHelp():'通し回答終了。新しい問題で再挑戦できます。'}</div>`;
+  if(isPracticeView()){
+    const practiceLogsHtml = practiceLogs.length
+      ? practiceLogs.map((line,i)=>`<div class="practiceLogItem">${i+1}. ${line}</div>`).join('')
+      : '<div class="practiceLogItem muted">まだログはありません。</div>';
+    const finished = practicePhase==='finished' ? '<div class="practiceFinishedBanner">全7枚が終了しました。正誤ログを3秒表示しています。</div>' : '';
+    hardPractice.innerHTML = `<div class="practiceLogBox"><b>正誤ログ</b>${practiceLogsHtml}${finished}</div>`;
+  } else {
+    hardPractice.innerHTML = '';
+  }
+  updateSlideTopNav();
+}
+
+function renderPracticeMapControls(){
+  if(!practiceMapControls) return;
+  if(!isPracticeView()){
+    practiceMapControls.classList.add('hidden');
+    practiceMapControls.innerHTML='';
+    return;
+  }
+  practiceMapControls.classList.remove('hidden');
+  const pauseLabel = practicePaused ? '再開' : '一時停止';
+  practiceMapControls.innerHTML = `<button class="primary" id="practiceStartInline">スタート</button><button class="ghost" id="practicePause">${pauseLabel}</button><button class="ghost" id="practiceNext">別の問題</button><button class="ghost" id="practiceRetry">同じ問題をもう一度</button><button class="ghost" id="practicePrev">一問前に戻る</button><button class="ghost" id="hardShow">正解を表示</button>`;
+  const startBtn=document.getElementById('practiceStartInline');
+  const pauseBtn=document.getElementById('practicePause');
+  const nextBtn=document.getElementById('practiceNext');
+  const retryBtn=document.getElementById('practiceRetry');
+  const prevBtn=document.getElementById('practicePrev');
+  const showBtn=document.getElementById('hardShow');
+  if(startBtn) startBtn.onclick=()=>{ startPracticeCountdown(); result.textContent='通し練習を開始します。'; };
+  if(pauseBtn) pauseBtn.onclick=()=>{ if(practicePaused) startPracticeCountdown(); else pausePractice(); };
+  if(nextBtn) nextBtn.onclick=()=>practiceGoNext();
+  if(retryBtn) retryBtn.onclick=()=>practiceRetrySame();
+  if(prevBtn) prevBtn.onclick=()=>practicePrevStep();
+  if(showBtn) showBtn.onclick=()=>{ hardShowAnswer=true; pausePractice(); renderAll(); result.textContent = hardStep<TOTAL_STEPS ? hardExpectedText(hardStep) : '完了済みです。'; };
+}
+
+function renderPracticeTopArea(){
+  if(!practiceTopArea) return;
+  if(!isPracticeView()){
+    practiceTopArea.classList.add('hidden');
+    practiceTopArea.innerHTML='';
+    return;
+  }
+  practiceTopArea.classList.remove('hidden');
+  const pct = practicePhase==='active' && practiceDuration>0 ? Math.max(0, Math.min(100, (practiceTimeLeft/practiceDuration)*100)) : (practicePhase==='reveal' ? 0 : 100);
+  practiceTopArea.innerHTML = `<div class="practiceMeta"><span><b>通し練習</b> / ${practiceStateText()}</span></div><div class="practiceBar"><div class="practiceFill" style="width:${pct}%"></div></div>`;
+}
+function renderPracticeCenterOverlay(){
+  if(!practiceCenterOverlay) return;
+  if(!isPracticeView()){
+    practiceCenterOverlay.classList.add('hidden');
+    practiceCenterOverlay.innerHTML='';
+    return;
+  }
+  const showCountdown = practicePhase==='countdown' && practiceCountdown>0;
+  const showStart = (!practiceStarted && practicePhase==='idle') || (practicePaused && practicePhase!=='finished');
+  if(!showCountdown && !showStart){
+    practiceCenterOverlay.classList.add('hidden');
+    practiceCenterOverlay.innerHTML='';
+    return;
+  }
+  practiceCenterOverlay.classList.remove('hidden');
+  let inner='<div class="practiceCenterBox">';
+  if(showCountdown) inner += `<div class="practiceCountdownText">${practiceCountdown}</div>`;
+  if(showStart) inner += `<button class="primary practiceStartBtnCenter" id="practiceStartCenter">${practicePaused?'再開':'スタート'}</button>`;
+  inner += '</div>';
+  practiceCenterOverlay.innerHTML=inner;
+  const btn=document.getElementById('practiceStartCenter');
+  if(btn) btn.onclick=()=>{ startPracticeCountdown(); result.textContent=practicePaused?'通し練習を再開します。':'通し練習を開始します。'; };
+}
+
+function svgPointFromEvent(evt){
+  const pt=arena.createSVGPoint(); pt.x=evt.clientX; pt.y=evt.clientY; return pt.matrixTransform(arena.getScreenCTM().inverse());
+}
+function dirFromPoint(x,y){
+  let best=null,bd=1e9;
+  for(const d of dirs){const [px,py]=pos[d]; const dist=(x-px)**2+(y-py)**2; if(dist<bd){bd=dist; best=d;}}
+  for(const d of crystalDirs){const [px,py]=crystalPos(d); const dist=(x-px)**2+(y-py)**2; if(dist<bd){bd=dist; best=d;}}
+  return best;
+}
+function clickMatchesExpected(clicked, expected){
+  if(!expected) return false;
+  if(expected.includes('〜')){
+    const [a,b]=expected.replace('間','').split('〜');
+    return clicked===a || clicked===b;
+  }
+  return clicked===expected;
+}
+arena.addEventListener('click', evt=>{
+  if(tabUltima.classList.contains('active')) return;
+  if(isMapLikeView()) {
+    result.textContent = 'Hardはマップ上を直接クリックせず、下の丸い立ち位置ボタンで回答します。';
+  }
+});
+
+function randomUltima(){ return {start:rand(dirs), teleDir:rand(['時計回り','反時計回り']), dice: rand([1,2,3,4,5,6,7,8])}; }
+function genUltima(){
+  ultimaAnswers={};
+  ultima={start:rand(dirs), teleDir:rand(['時計回り','反時計回り']), dice: Number(diceSelect.value)||rand([1,2,3,4,5,6,7,8])};
+  diceSelect.value=ultima.dice; renderUltima();
+}
+diceSelect.onchange=()=>{ if(ultima.start){ ultima.dice=Number(diceSelect.value); renderUltima(); }};
+function renderUltima(){renderArena(); renderUltimaQuestions(); ultimaSummary.innerHTML=`予兆開始：<b>${ultima.start}</b> / 予兆回転：<b>${ultima.teleDir}</b> / 自分：<b>${ultima.dice}</b>`; ultimaResult.textContent='選択肢を選んで判定してください。';}
+function renderUltimaSvg(add){
+  add('circle',{cx:300,cy:300,r:230,fill:'#1a1740',stroke:'#8b6dff','stroke-width':2,opacity:.95});
+  dirs.forEach((d,i)=>{ const [x,y]=pos[d]; add('text',{x,y,fill:'#e8ecff','font-size':26,'font-weight':800,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=d; });
+  const actual=actualUltima();
+  const step=actual.actualDir==='時計回り'?1:-1;
+  let idx=dirs.indexOf(ultima.start);
+  for(let n=1;n<=8;n++){
+    const d=dirs[(idx+8)%8], [x,y]=pos[d];
+    add('circle',{cx:x,cy:y,r:18,fill:n===ultima.dice?'#ffd166':'#26304c',stroke:'#fff','stroke-width':2});
+    add('text',{x,y:y+1,fill:n===ultima.dice?'#111':'#fff','font-size':16,'font-weight':900,'text-anchor':'middle','dominant-baseline':'middle'}).textContent=n;
+    idx+=step;
+  }
+  add('text',{x:300,y:35,fill:'#e9edff','font-size':16,'font-weight':800,'text-anchor':'middle'}).textContent=`予兆：${ultima.start}開始 ${ultima.teleDir} / 実際は逆回り`;
+}
+function actualUltima(){
+  const actualDir=ultima.teleDir==='時計回り'?'反時計回り':'時計回り';
+  const step=actualDir==='時計回り'?1:-1;
+  const bait=dirs[(dirs.indexOf(ultima.start)+(ultima.dice-1)*step+80)%8];
+  const opp=opposite(bait);
+  return {actualDir,bait,stand:`${opp}〜${clockwiseNext(opp)}間`};
+}
+function renderUltimaQuestions(){
+  const standChoices = dirs.map(d=>`${d}〜${clockwiseNext(d)}間`);
+  const a=actualUltima();
+  ultimaQuestions.innerHTML = qBlockUlt('actualDir','1. 実際の飛来回転は？',['時計回り','反時計回り'],a.actualDir)+
+    qBlockUlt('bait','2. 自分の番号が誘導するブラスター位置は？',dirs,a.bait)+
+    qBlockUlt('stand','3. 自分の立ち位置は？',standChoices,a.stand);
+  ultimaQuestions.querySelectorAll('button[data-uq]').forEach(b=>b.onclick=()=>{ultimaAnswers[b.dataset.uq]=b.dataset.v; renderUltimaQuestions();});
+}
+function qBlockUlt(key,title,choices,correct){return `<div class="q"><b>${title}</b><div class="choices">${choices.map(ch=>{const cls=[ultimaAnswers[key]===ch?'selected':'', showUltimaAnswer && ch===correct?'correctAnswer':''].filter(Boolean).join(' '); return `<button data-uq="${key}" data-v="${ch}" class="${cls}">${ch}</button>`}).join('')}</div></div>`}
+function checkUltimaAnswers(){
+  const a=actualUltima(); const correct={actualDir:a.actualDir,bait:a.bait,stand:a.stand}; let ok=0, lines=[];
+  for(const k of Object.keys(correct)){const ans=ultimaAnswers[k]||'未回答'; const good=ans===correct[k]; if(good) ok++; lines.push(`${good?'✅':'❌'} ${k==='actualDir'?'実際の回転':k==='bait'?'誘導位置':'立ち位置'}：あなた=${ans} / 正解=${correct[k]}`)}
+  ultimaResult.innerHTML=`<span class="${ok===3?'ok':'warn'}">${ok}/3 正解</span>\n`+lines.join('\n');
+}
+function showUltimaAnswers(){const a=actualUltima(); showUltimaAnswer=true; renderUltimaQuestions(); ultimaResult.innerHTML=`<span class="ok">回答</span>\n実際の回転：${a.actualDir}\n自分の誘導ブラスター：${a.bait}\n立ち位置：${a.stand}`;}
+function isPracticeView(){ return displayMode==='practice'; }
+function isNormalView(){ return displayMode==='normal'; }
+function isHardView(){ return displayMode==='hard'; }
+function isMapLikeView(){ return displayMode!=='normal'; }
+function clearPracticeTimers(){
+  if(practiceTimer){ clearInterval(practiceTimer); practiceTimer=null; }
+  if(practiceCountdownTimer){ clearInterval(practiceCountdownTimer); practiceCountdownTimer=null; }
+  if(practiceRaf){ cancelAnimationFrame(practiceRaf); practiceRaf=null; }
+}
+function resetPracticeState(resetTime=true){
+  clearPracticeTimers();
+  practiceRunning=false;
+  practicePaused=false;
+  practiceStarted=false;
+  practiceCountdown=0;
+  practicePhase='idle';
+  practiceLastTs=0;
+  practiceLastCastVisible=false;
+  practiceLastNotice='';
+  practiceCountdownRemaining=3000;
+  practiceRevealRemaining=currentPracticeRevealDuration();
+  practiceFinishRemaining=practiceLogDuration;
+  if(resetTime){
+    practiceSegmentIndex=0;
+    hardStep=currentPracticeSegment().step;
+    practiceDuration=currentPracticeStepDuration();
+    practiceTimeLeft=practiceDuration;
+    practiceStepRemaining=practiceDuration;
+  }
+}
+function setDisplayMode(mode){
+  displayMode = ['normal','hard','practice'].includes(mode) ? mode : 'practice';
+  localStorage.setItem('p3baulDisplayMode', displayMode);
+  modeSelect.value = displayMode==='normal' ? 'normal' : 'hard';
+  if(modeBtnNormal) modeBtnNormal.classList.toggle('active', displayMode==='normal');
+  if(modeBtnHard) modeBtnHard.classList.toggle('active', displayMode==='hard');
+  if(modeBtnPractice) modeBtnPractice.classList.toggle('active', displayMode==='practice');
+  if(slideTopNav) slideTopNav.style.display = 'flex';
+  renderAll();
+}
+function updateSlideTopNav(){
+  if(!slideTopNav) return;
+  slideTopNav.style.display='flex';
+  const idx = currentSlideStep() + 1;
+  slideCountTop.textContent = `${idx}/${TOTAL_STEPS}`;
+}
+function preparePracticeStep(resetSelections=true){
+  const seg=currentPracticeSegment();
+  if(seg) hardStep=seg.step;
+  practiceDuration=currentPracticeStepDuration();
+  practiceTimeLeft=practiceDuration;
+  practiceStepRemaining=practiceDuration;
+  practiceRevealRemaining=currentPracticeRevealDuration();
+  practiceLastCastVisible=false;
+  practiceLastNotice='';
+  if(resetSelections){
+    hardShowAnswer=false;
+    hardSelectedChoice='';
+    resetHardJudgeState();
+    hardImplosionClicks=[];
+  }
+}
+function normalizePracticeClicked(){
+  if(hardStep===2){
+    return hardImplosionClicks.length ? hardImplosionClicks.map((h,i)=>`${i+1}回目=${implosionRegionShort(h.clicked)}側`).join(' / ') : '未回答';
+  }
+  return hardSelectedChoice || '未回答';
+}
+function updatePracticeLiveVisuals(){
+  if(!isPracticeView()) return;
+  if(practiceTopArea && !practiceTopArea.classList.contains('hidden')){
+    const pct = practicePhase==='active' && practiceDuration>0 ? Math.max(0, Math.min(100, (practiceTimeLeft/practiceDuration)*100)) : (practicePhase==='reveal' ? 0 : 100);
+    const fill = practiceTopArea.querySelector('.practiceFill');
+    if(fill) fill.style.width = `${pct}%`;
+    const meta = practiceTopArea.querySelector('.practiceMeta span');
+    if(meta) meta.innerHTML = `<b>通し練習</b> / ${practiceStateText()}`;
+  }
+  const castVisible = shouldShowPracticeImplosionCast();
+  const notice = practiceNoticeText();
+  if(castVisible !== practiceLastCastVisible || notice !== practiceLastNotice){
+    practiceLastCastVisible = castVisible;
+    practiceLastNotice = notice;
+    renderArena();
+  }
+  updateBlasterRushVisuals();
+  if(practiceCenterOverlay && practicePhase==='countdown'){
+    const countdownText = practiceCenterOverlay.querySelector('.practiceCountdownText');
+    if(countdownText) countdownText.textContent = practiceCountdown;
+    else renderPracticeCenterOverlay();
+  }
+}
+
+function evaluatePracticeCurrentStep(){
+  const seg=currentPracticeSegment();
+  let ok=false;
+  let expected='';
+  let clicked=normalizePracticeClicked();
+  if(seg.key==='stLead1' || seg.key==='stLead2'){
+    expected = roleSelect.value==='ST' ? practiceStLeadAnswer() : '回答不要';
+    clicked = hardSelectedChoice || (roleSelect.value==='ST' ? '未回答' : '回答不要');
+    ok = roleSelect.value==='ST' ? hardSelectedChoice===practiceStLeadAnswer() : true;
+    hardClicks[hardStep] = {clicked, expected, ok};
+  } else if(seg.key==='imp1' || seg.key==='imp2'){
+    const idx = seg.key==='imp1' ? 0 : 1;
+    const seq=implosionSafeSeq();
+    expected = seq[idx];
+    const pick = hardImplosionClicks[0];
+    clicked = pick ? `${implosionRegionShort(pick.clicked)}側` : '未回答';
+    ok = !!pick && pick.ok;
+    hardClicks[hardStep] = {clicked, expected, ok};
+  } else if(hardStep===6){
+    expected = blasterExpectedChoice();
+    ok = hardSelectedChoice===expected;
+    clicked = hardSelectedChoice || '未回答';
+    hardClicks[hardStep] = {clicked, expected, ok};
+  } else {
+    expected = hardExpectedChoice(hardStep);
+    ok = hardSelectedChoice===expected;
+    hardClicks[hardStep] = {clicked, expected, ok};
+  }
+  hardJudged=true;
+  hardJudgeCorrect=ok;
+  hardShowAnswer=true;
+  const title=currentPracticeSegmentTitle();
+  practiceLogs.push(`${ok?'✅':'❌'} ${title} / あなた=${clicked} / 正解=${expected}`);
+  result.innerHTML = `${ok?'<span class="ok">OK</span>':'<span class="ng">NG</span>'}：${title} / あなた=${clicked} / 正解=${expected}`;
+}
+function stepPracticeLoop(ts){
+  if(!practiceRunning) return;
+  if(!practiceLastTs) practiceLastTs=ts;
+  const delta = ts - practiceLastTs;
+  practiceLastTs = ts;
+  let needFullRender=false;
+  if(practicePhase==='countdown'){
+    const prevCountdown = practiceCountdown;
+    practiceCountdownRemaining = Math.max(0, practiceCountdownRemaining - delta);
+    practiceCountdown = Math.max(1, Math.ceil(practiceCountdownRemaining/1000));
+    if(practiceCountdown !== prevCountdown) updatePracticeLiveVisuals();
+    if(practiceCountdownRemaining<=0){
+      practicePhase='active';
+      practiceCountdown=0;
+      practiceStarted=true;
+      preparePracticeStep(false);
+      result.textContent='回答してください。';
+      needFullRender=true;
+    }
+  } else if(practicePhase==='active'){
+    practiceStepRemaining = Math.max(0, practiceStepRemaining - delta);
+    practiceTimeLeft = practiceStepRemaining;
+    if(hardStep===5) updateBlasterRushVisuals();
+    if(practiceStepRemaining<=0){
+      evaluatePracticeCurrentStep();
+      practicePhase='reveal';
+      practiceRevealRemaining=currentPracticeRevealDuration();
+      needFullRender=true;
+    }
+  } else if(practicePhase==='reveal'){
+    practiceRevealRemaining = Math.max(0, practiceRevealRemaining - delta);
+    if(practiceRevealRemaining<=0){
+      if(practiceSegmentIndex < totalPracticeSegments()-1){
+        practiceSegmentIndex += 1;
+        preparePracticeStep(true);
+        practicePhase='active';
+        result.textContent='回答してください。';
+      } else {
+        practicePhase='finished';
+        practiceFinishRemaining=practiceLogDuration;
+        result.textContent='通し練習が終了しました。';
+      }
+      needFullRender=true;
+    }
+  } else if(practicePhase==='finished'){
+    practiceFinishRemaining = Math.max(0, practiceFinishRemaining - delta);
+    if(practiceFinishRemaining<=0){
+      practiceRunning=false;
+      practicePaused=false;
+      practiceStarted=false;
+      practicePhase='idle';
+      needFullRender=true;
+    }
+  }
+  if(needFullRender) renderAll();
+  else updatePracticeLiveVisuals();
+  if(practiceRunning) practiceRaf=requestAnimationFrame(stepPracticeLoop);
+}
+function startPracticeCountdown(){
+  if(!isPracticeView()) return;
+  if(practiceRunning) return;
+  if(practicePaused){
+    practicePaused=false;
+    practiceRunning=true;
+    practiceLastTs=0;
+    renderAll();
+    practiceRaf=requestAnimationFrame(stepPracticeLoop);
+    return;
+  }
+  if(practicePhase==='idle' || !practiceStarted){
+    if(practiceSegmentIndex<0 || practiceSegmentIndex>=totalPracticeSegments()) practiceSegmentIndex=0;
+    preparePracticeStep(true);
+    practiceLogs=[];
+    practiceRunning=true;
+    practicePaused=false;
+    practiceStarted=true;
+    practicePhase='countdown';
+    practiceCountdownRemaining=3000;
+    practiceCountdown=3;
+    practiceLastTs=0;
+    renderAll();
+    practiceRaf=requestAnimationFrame(stepPracticeLoop);
+  }
+}
+function pausePractice(){
+  if(!isPracticeView()) return;
+  if(practiceRunning || practicePhase==='countdown' || practicePhase==='reveal' || practicePhase==='active' || practicePhase==='finished'){
+    clearPracticeTimers();
+    practiceRunning=false;
+    practicePaused=true;
+    renderAll();
+    result.textContent='実践練習を一時停止しました。';
+  }
+}
+function practiceGoNext(){
+  clearPracticeTimers();
+  practiceRunning=false;
+  practicePaused=false;
+  practiceLogs=[];
+  hardStep=0;
+  hardClicks=[];
+  hardImplosionClicks=[];
+  hardShowAnswer=false;
+  hardSelectedChoice='';
+  resetHardJudgeState();
+  genScenario();
+  resetPracticeState(true);
+  renderAll();
+  result.textContent='別の問題に切り替えました。';
+}
+function practiceRetrySame(){
+  clearPracticeTimers();
+  practiceRunning=false; practicePaused=false;
+  practiceSegmentIndex=0;
+  preparePracticeStep(true);
+  practicePhase='idle';
+  renderAll();
+  result.textContent='同じ問題をもう一度開始できます。';
+}
+function practicePrevStep(){
+  clearPracticeTimers();
+  practiceRunning=false; practicePaused=false;
+  if(practiceSegmentIndex>0) practiceSegmentIndex--;
+  preparePracticeStep(true);
+  practicePhase='idle';
+  renderAll();
+  result.textContent='一問前に戻りました。';
+}
+
+setup();
+</script>
+</body>
+</html>
