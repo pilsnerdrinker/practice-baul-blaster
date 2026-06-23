@@ -289,7 +289,7 @@ function currentPracticeExpectedChoice(phase=currentBaulMapPhase()){
   if(!isPracticeView()) return hardExpectedChoice(phase);
   const seg=currentPracticeSegment();
   if(!seg || seg.step!==phase) return hardExpectedChoice(phase);
-  if(seg.key==='stLead1' || seg.key==='stLead2') return roleSelect.value==='ST' ? practiceStLeadAnswer() : null;
+  if(seg.key==='stLead1' || seg.key==='stLead2') return roleSelect.value===leadRoleForStrategy() ? practiceStLeadAnswer() : null;
   if(seg.key==='imp1') return implosionSafeSeq()[0];
   if(seg.key==='imp2') return implosionSafeSeq()[1];
   return hardExpectedChoice(phase);
@@ -308,6 +308,9 @@ function shouldShowPracticeImplosionCast(){
 }
 function exdeathLeadCenter(){
   return polarPoint(state.crystals.empty,170);
+}
+function leadRoleForStrategy(){
+  return isDnLike() ? 'ST' : 'MT';
 }
 function practiceStLeadAnswer(){
   return isDnLike() ? 'T強攻撃誘導' : 'エクスデス誘導';
@@ -354,7 +357,10 @@ function practiceNoticeText(){
   if(!isPracticeView()) return '';
   const seg=currentPracticeSegment();
   const elapsed=Math.max(0, practiceDuration-practiceTimeLeft);
-  if(seg.key==='stLead1' || seg.key==='stLead2') return 'サンダガ誘導';
+  if(seg.key==='stLead1') return 'サンダガ誘導';
+  if(seg.key==='spread1') return '早デバフ発動';
+  if(seg.key==='stLead2') return 'サンダガ（強攻撃）';
+  if(seg.key==='spread2') return '遅デバフ発動';
   if(seg.key==='vacuumPrep') return 'アンブラスマッシュ誘導';
   if(seg.key==='vacuumResolve' && elapsed>=5000 && elapsed<7000) return 'TLB（真空波7割）';
   return '';
@@ -999,7 +1005,10 @@ function poikosFinalAnswer(role){
   return '';
 }
 function lpSide(role){
-  return ['MT','H1','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
+  if(isYanDN() || isPoikos()){
+    return ['MT','H1','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
+  }
+  return ['ST','H2','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
 }
 function phaseNames(){
   if(isPoikos()) return ['MT組/ST組分かれ','1回目 火水＋風処理','インプロージョン安置','2回目 火水＋風処理','真空波前準備＋アルテマ突進','真空波＋2人受け','アルテマブラスター散開'];
@@ -1021,9 +1030,9 @@ function getNormalStepSpecYanTLB(){
   const specs=[
     {
       title:'Step 1：MT組 / ST組分かれ',
-      help:'左にカオス、右にエクスデス。カオス側は MT・H1・D1・D2、エクスデス側は ST・H2・D3・D4。',
+      help:'左にカオス、右にエクスデス。カオス側は ST・H2・D1・D2、エクスデス側は MT・H1・D3・D4。',
       qs:[
-        {key:'lp', title:'カオス側の基本担当は？', choices:['MT・H1・D1・D2','ST・H2・D3・D4','MT・H1・D1・D3','ST・H2・D2・D4'], correct:'MT・H1・D1・D2'},
+        {key:'lp', title:'カオス側の基本担当は？', choices:['ST・H2・D1・D2','MT・H1・D3・D4','MT・H1・D1・D2','ST・H2・D3・D4'], correct:'ST・H2・D1・D2'},
         {key:'side', title:`${me}が最初に入る側は？`, choices:['カオス側','エクスデス側'], correct:lpSide(me)}
       ]
     },
@@ -1090,7 +1099,7 @@ function getNormalStepSpecYanDN(){
       title:'Step 1：MT組 / ST組分かれ',
       help:'DN式でも最初はライトパーティに分かれる。',
       qs:[
-        {key:'lp', title:'カオス側の基本担当は？', choices:['MT・H1・D1・D2','ST・H2・D3・D4','MT・H1・D1・D3','ST・H2・D2・D4'], correct:'MT・H1・D1・D2'},
+        {key:'lp', title:'カオス側の基本担当は？', choices:['ST・H2・D1・D2','MT・H1・D3・D4','MT・H1・D1・D2','ST・H2・D3・D4'], correct:'ST・H2・D1・D2'},
         {key:'side', title:`${me}が最初に入る側は？`, choices:['カオス側','エクスデス側'], correct:lpSide(me)}
       ]
     },
@@ -1427,8 +1436,8 @@ function computeTlbHardRolePositions(phase){
   if(phase===0){
     // 1枚目は各ボスのターゲットサークル中央寄りに4人を配置
     return {
-      MT:[190,278], H1:[230,278], D1:[190,322], D2:[230,322],
-      ST:[370,278], H2:[410,278], D3:[370,322], D4:[410,322]
+      ST:[190,278], H2:[230,278], D1:[190,322], D2:[230,322],
+      MT:[370,278], H1:[410,278], D3:[370,322], D4:[410,322]
     };
   }
   const wind = crystalPos(state.crystals.wind);
@@ -1525,7 +1534,7 @@ function getHardAnswerVisual(answer, phase=currentBaulMapPhase()){
   return 'neutral';
 }
 function hardMapAnswerForRole(step, role){
-  if(step===0) return ['MT','H1','D1','D2'].includes(role) ? 'カオス側' : 'エクスデス側';
+  if(step===0) return lpSide(role);
   if(step===1 || step===3){
     if(['D1','D2'].includes(role)) return '風クリ外周';
     if(['MT','ST','H1','H2'].includes(role)) return '風クリ内周';
@@ -1622,8 +1631,8 @@ function drawHardPhaseMapChoicesYanTLB(add, phase){
   const rp = computeTlbHardRolePositions(phase);
   if(phase===0){
     if(hardShowAnswer){
-      drawHardAggregateCircle(add,210,300,'カオス側','MT/H1/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
-      drawHardAggregateCircle(add,390,300,'エクスデス側','ST/H2/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,210,300,'カオス側','ST/H2/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','MT/H1/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
     } else {
       drawHardAggregateCircle(add,210,300,'カオス側','',{r:20});
       drawHardAggregateCircle(add,390,300,'エクスデス側','',{r:20});
@@ -1634,7 +1643,7 @@ function drawHardPhaseMapChoicesYanTLB(add, phase){
     const d12=[(rp.D1[0]+rp.D2[0])/2,(rp.D1[1]+rp.D2[1])/2];
     const cluster=['MT','ST','H1','H2'].map(k=>rp[k]);
     const c=[cluster.reduce((s,v)=>s+v[0],0)/4, cluster.reduce((s,v)=>s+v[1],0)/4];
-    if(phase===1){ const exLead=exdeathLeadCenter(); drawHardAggregateCircle(add,exLead[0],exLead[1],'エクスデス誘導',hardShowAnswer && roleSelect.value==='ST'?'ST':'',{r:22,fontSize:11,labelPos:'below',labelOffset:28}); }
+    if(phase===1){ const exLead=exdeathLeadCenter(); drawHardAggregateCircle(add,exLead[0],exLead[1],'エクスデス誘導',hardShowAnswer && roleSelect.value==='MT'?'MT':'',{r:22,fontSize:11,labelPos:'below',labelOffset:28}); }
     if(hardShowAnswer){
       drawHardAggregateCircle(add,d12[0],d12[1],'風クリ外周','D1/D2',{r:18,fontSize:12,labelPos:'above',labelOffset:28});
       drawHardAggregateCircle(add,c[0],c[1],'風クリ内周','MT/ST/H1/H2',{r:18,fontSize:11,labelPos:'above',labelOffset:28});
@@ -1773,8 +1782,8 @@ function drawHardPhaseMapChoicesPoikos(add, phase){
 function drawHardPhaseMapChoicesYanDN(add, phase){
   if(phase===0){
     if(hardShowAnswer){
-      drawHardAggregateCircle(add,210,300,'カオス側','MT/H1/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
-      drawHardAggregateCircle(add,390,300,'エクスデス側','ST/H2/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,210,300,'カオス側','ST/H2/D1/D2',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
+      drawHardAggregateCircle(add,390,300,'エクスデス側','MT/H1/D3/D4',{r:20,fontSize:12,labelPos:'above',labelOffset:34});
     } else {
       drawHardAggregateCircle(add,210,300,'カオス側','',{r:20});
       drawHardAggregateCircle(add,390,300,'エクスデス側','',{r:20});
@@ -2489,9 +2498,9 @@ function evaluatePracticeCurrentStep(){
   let expected='';
   let clicked=normalizePracticeClicked();
   if(seg.key==='stLead1' || seg.key==='stLead2'){
-    expected = roleSelect.value==='ST' ? practiceStLeadAnswer() : '回答不要';
-    clicked = hardSelectedChoice || (roleSelect.value==='ST' ? '未回答' : '回答不要');
-    ok = roleSelect.value==='ST' ? hardSelectedChoice===practiceStLeadAnswer() : true;
+    expected = roleSelect.value===leadRoleForStrategy() ? practiceStLeadAnswer() : '回答不要';
+    clicked = hardSelectedChoice || (roleSelect.value===leadRoleForStrategy() ? '未回答' : '回答不要');
+    ok = roleSelect.value===leadRoleForStrategy() ? hardSelectedChoice===practiceStLeadAnswer() : true;
     hardClicks[hardStep] = {clicked, expected, ok};
   } else if(seg.key==='imp1' || seg.key==='imp2'){
     const idx = seg.key==='imp1' ? 0 : 1;
