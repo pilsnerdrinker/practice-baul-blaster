@@ -17,7 +17,7 @@
   main{max-width:1180px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1.05fr .95fr;gap:16px}
   .card{background:rgba(21,26,46,.96);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 10px 24px rgba(0,0,0,.22)}
   .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
-  label{font-size:13px;color:var(--muted)}
+  label{font-size:13px;color:var(--muted)}.markerControl{display:inline-flex;align-items:center;gap:6px}.markerControl .modeButtons{display:inline-flex}
   select,button{border-radius:10px;border:1px solid #445174;background:#0f1426;color:var(--text);padding:9px 10px;font-size:14px}
   button{cursor:pointer;background:#253053;font-weight:700} button:hover{filter:brightness(1.12)}
   .primary{background:#3457d5;border-color:#5572e8}.ghost{background:#141a30}.danger{background:#4a1e28;border-color:#8a3848}
@@ -78,10 +78,10 @@
     <div id="baulControls" class="controls">
       <label>自分ロール <select id="roleSelect"></select></label>
       <button class="primary" id="newScenario">新しい問題</button>
-      <div class="modeButtons" id="fieldMarkerModeButtons" aria-label="フィールドマーカー">
+      <label class="markerControl">マーカー <span class="modeButtons" id="fieldMarkerModeButtons" aria-label="フィールドマーカー">
         <button type="button" class="ghost" data-marker-mode="2341">2341</button>
         <button type="button" class="ghost" data-marker-mode="1234">1234</button>
-      </div>
+      </span></label>
       <div class="controlStack controlFull">
         <div class="smallMuted">方式</div>
         <div class="modeButtons" id="strategyButtons">
